@@ -99,8 +99,14 @@ FLit2    = \. [0-9]+
   "FLOAT"                        { return symbol(FLOAT); }
   "STRING"                       { return symbol(STRING); }
   "WHILE"                        { return symbol(WHILE); }
+  "While"                        { return symbol(WHILE); }
+  "while"                        { return symbol(WHILE); }
   "IF"                           { return symbol(IF); }
+  "If"                           { return symbol(IF); }
+  "if"                           { return symbol(IF); }
   "ELSE"                         { return symbol(ELSE); }
+  "Else"                         { return symbol(ELSE); }
+  "else"                         { return symbol(ELSE); }
   "PRINT"                        { return symbol(PRINT); }
   "BETWEEN"                      { return symbol(BETWEEN); }
   "("                            { return symbol(LPAREN); }
