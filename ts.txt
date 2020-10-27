@@ -1,25 +1,21 @@
                            suma                     IDENTIFIER      null                           null                           null
+                         actual                     IDENTIFIER      null                           null                           null
                          _18.22         FLOATING_POINT_LITERAL      null                          18.22                           null
+                         _0.342         FLOATING_POINT_LITERAL      null                          0.342                           null
                             _14                INTEGER_LITERAL      null                             14                           null
                       _es mayor                 STRING_LITERAL      null                       es mayor                              8
-                          _4.67         FLOATING_POINT_LITERAL      null                           4.67                           null
-                          while                     IDENTIFIER      null                           null                           null
-                             d1                     IDENTIFIER      null                           null                           null
-                           _7.5         FLOATING_POINT_LITERAL      null                            7.5                           null
-             _no es mayor que 2                 STRING_LITERAL      null              no es mayor que 2                             17
-                       contador                     IDENTIFIER      null                           null                           null
-                            and                     IDENTIFIER      null                           null                           null
-                         contar                     IDENTIFIER      null                           null                           null
-                         actual                     IDENTIFIER      null                           null                           null
-                         _0.342         FLOATING_POINT_LITERAL      null                          0.342                           null
                             var                     IDENTIFIER      null                           null                           null
+                          _4.67         FLOATING_POINT_LITERAL      null                           4.67                           null
+                             d1                     IDENTIFIER      null                           null                           null
  _Prueba.txt Analizador Lexico!                 STRING_LITERAL      null  Prueba.txt Analizador Lexico!                             29
                              _0                INTEGER_LITERAL      null                              0                           null
                              _1                INTEGER_LITERAL      null                              1                           null
+                           _7.5         FLOATING_POINT_LITERAL      null                            7.5                           null
                              _2                INTEGER_LITERAL      null                              2                           null
                         palabra                     IDENTIFIER      null                           null                           null
+             _no es mayor que 2                 STRING_LITERAL      null              no es mayor que 2                             17
                              _3                INTEGER_LITERAL      null                              3                           null
-                           Else                     IDENTIFIER      null                           null                           null
+                       contador                     IDENTIFIER      null                           null                           null
                             _92                INTEGER_LITERAL      null                             92                           null
-                             If                     IDENTIFIER      null                           null                           null
+                         contar                     IDENTIFIER      null                           null                           null
                             _54                INTEGER_LITERAL      null                             54                           null

@@ -20,7 +20,7 @@
 	</target>
 
 	<target name="scanner">
-		<jflex file="flex/java.flex" destdir="src"></jflex>
+		<jflex file="flex/lexico.flex" destdir="src"></jflex>
 	</target>
 
 	<target name="cup">

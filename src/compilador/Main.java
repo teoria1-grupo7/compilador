@@ -32,7 +32,7 @@ public class Main {
     public static void main(String[] argv) {
         try {
             BufferedReader br = Files.newBufferedReader(PRUEBA_PATH);
-            Scanner sc = new Scanner(br);
+            Lexico sc = new Lexico(br);
             try {
                 SymbolWrapper sw = sc.imprimirProximoToken();
                 Symbol s = sw.getSymbol();

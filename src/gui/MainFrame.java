@@ -143,7 +143,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Compilador");
-        setResizable(true);
+        setResizable(false);
 
         jToolBar1.setBackground(new java.awt.Color(255, 255, 255));
         jToolBar1.setRollover(true);
@@ -298,7 +298,7 @@ public class MainFrame extends javax.swing.JFrame {
         if (currentEditingFile != null) {
             try {
                 BufferedReader br = Files.newBufferedReader(PRUEBA_PATH);
-                compilador.Scanner sc = new compilador.Scanner(br);
+                compilador.Lexico sc = new compilador.Lexico(br);
                 String salida = "";
                 try {
                     SymbolWrapper sw = sc.imprimirProximoToken();

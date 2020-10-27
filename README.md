@@ -16,10 +16,10 @@
 
 
 <!-- INDICE -->
-## Índice
+## Indice
 * [Equipo docente](#equipo-docente)
 * [Integrantes del grupo](#integrantes-del-grupo)
-* [Instalación desde el código fuente](#instalacion)
+* [Instalación y ejecución](#instalacion-y-ejecucion)
 
 
 
@@ -43,9 +43,11 @@
 
 
 <!-- INSTALACION -->
-## Instalación
- * Clonar el repositorio: `https://github.com/teoria1-grupo7/compi.git`.
- * Compilar ejecutando el archivo Ant `build.xml`.
+## Instalacion y ejecucion
+ * Clonar el repositorio en IntelliJ IDEA: `https://github.com/teoria1-grupo7/compi.git`.
+ * Ejecutar el target `run` del `build.xml` con Apache Ant para generar nuevamente las clases de JFlex y JCUP.
+ * Puede ejecutarse la clase `compilador/Main.java` para una salida por terminal, y la clase `gui/MainFrame.java` para la interfaz gráfica.
+ * Se puede utilizar la versión ya `bin/compilador.jar`.
  
  
  

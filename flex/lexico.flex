@@ -4,7 +4,7 @@ import java_cup.runtime.*;
 %%
 
 %public
-%class Scanner
+%class Lexico
 %implements sym
 %unicode
 %line
@@ -73,7 +73,7 @@ WhiteSpace = {LineTerminator} | [ \t\f]
 /* COMENTARIOS */
 Comment = "</" ~"/>"
 
-Identifier = [:jletter:][:jletterdigit:]*
+Identifier = [a-zA-Z_][a-zA-Z_0-9]*
 
 /* CONSTANTES ENTERAS */
 DecIntegerLiteral = 0 | [1-9][0-9]*
@@ -95,20 +95,14 @@ FLit2    = \. [0-9]+
   "END.PROGRAM"                  { return symbol(ENDPROGRAM); }
   "DECLARE"                      { return symbol(DECLARE); }
   "ENDDECLARE"                   { return symbol(ENDDECLARE); }
-  "INT"                          { return symbol(INT); }
-  "FLOAT"                        { return symbol(FLOAT); }
-  "STRING"                       { return symbol(STRING); }
-  "WHILE"                        { return symbol(WHILE); }
-  "While"                        { return symbol(WHILE); }
-  "while"                        { return symbol(WHILE); }
-  "IF"                           { return symbol(IF); }
-  "If"                           { return symbol(IF); }
-  "if"                           { return symbol(IF); }
-  "ELSE"                         { return symbol(ELSE); }
-  "Else"                         { return symbol(ELSE); }
-  "else"                         { return symbol(ELSE); }
-  "PRINT"                        { return symbol(PRINT); }
-  "BETWEEN"                      { return symbol(BETWEEN); }
+  ([iI][nN][tT])                 { return symbol(INT); }
+  ([fF][lL][oO][aA][tT])         { return symbol(FLOAT); }
+  ([sS][tT][rR][iI][nN][gG])     { return symbol(STRING); }
+  ([wW][hH][iI][lL][eE])         { return symbol(WHILE); }
+  ([iI][fF])                     { return symbol(IF); }
+  ([eE][lL][sS][eE])             { return symbol(ELSE); }
+  ([pP][rR][iI][nN][tT])         { return symbol(PRINT); }
+  ([bB][eE][tT][wW][eE][eE][nN]) { return symbol(BETWEEN); }
   "("                            { return symbol(LPAREN); }
   ")"                            { return symbol(RPAREN); }
   "{"                            { return symbol(LBRACE); }
@@ -119,8 +113,8 @@ FLit2    = \. [0-9]+
   ","                            { return symbol(COMMA); }
 
   /* OPERADORES */
-  "AND"                          { return symbol(AND); }
-  "OR"                           { return symbol(OR); }
+  ([aA][nN][dD])                 { return symbol(AND); }
+  ([oO][rR])                     { return symbol(OR); }
   "<"                            { return symbol(LT); }
   "<="                           { return symbol(LTEQ); }
   "=="                           { return symbol(EQEQ); }
@@ -169,7 +163,7 @@ FLit2    = \. [0-9]+
   {Identifier}                   { return symbol(IDENTIFIER, yytext()); }
 
   /* ESPACIOS */
-  {WhiteSpace}                   { /* ignore */ }
+  {WhiteSpace}                   { /**/ }
 }
 
 /* ERRORES */
