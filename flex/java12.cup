@@ -1,0 +1,64 @@
+package compilador;
+import java_cup.runtime.*;
+
+parser code  {: 
+  public void report_error(String message, Object info) {
+    StringBuilder m = new StringBuilder("Error ");
+
+    if (info instanceof java_cup.runtime.Symbol) 
+      m.append( "("+info.toString()+")" );
+     
+    m.append(" : "+message);
+   
+    System.out.println(m);
+  }
+   
+  public void report_fatal_error(String message, Object info) {
+    report_error(message, info);
+    throw new RuntimeException("Fatal Syntax Error");
+  }
+:};
+
+terminal BEGINPROGRAM;
+terminal ENDPROGRAM;
+terminal DECLARE;
+terminal ENDDECLARE;
+terminal INT;
+terminal FLOAT;
+terminal STRING;
+
+terminal WHILE;
+terminal IF, ELSE;
+terminal PRINT;
+terminal BETWEEN;
+
+terminal LPAREN, RPAREN, LBRACE, RBRACE;
+terminal LBRACK, RBRACK;
+terminal SEMICOLON, COMMA;
+
+terminal AND; // conditional_and_expression
+terminal OR; // conditional_or_expression
+terminal LT, LTEQ; // relational_expression
+terminal EQEQ, NOTEQ; // equality_expression
+terminal GTEQ, GT; // relational_expression
+terminal NOT;
+terminal VARASSIGN; //type assignment
+terminal ASSIGN; //assignment
+terminal PLUS, MINUS, MULT, DIV;
+
+terminal java.lang.String STRING_LITERAL;
+terminal java.lang.Number INTEGER_LITERAL;
+terminal java.lang.Number FLOATING_POINT_LITERAL;
+terminal java.lang.String IDENTIFIER;
+
+// 19.2) The Syntactic Grammar
+non terminal goal;
+
+// 19.6) Packages
+non terminal compilation_unit;
+
+start with goal;
+
+// 19.2) The Syntactic Grammar
+goal ::=	compilation_unit
+	;
