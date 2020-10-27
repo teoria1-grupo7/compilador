@@ -13,9 +13,41 @@
   <p align="center"><a href="https://github.com/teoria1-grupo7"><strong>Explorar los documentos »</strong></a></p>
 </p>
 
+
+
+<!-- INDICE -->
+## Índice
+* [Equipo docente](#equipo-docente)
+* [Integrantes del grupo](#integrantes-del-grupo)
+* [Instalación desde el código fuente](#instalacion)
+
+
+
+<!-- DOCENTES -->
+## Equipo docente
+| Profesor  | Cargo  |
+| :------------ |:---------------:|
+| Mara Capuya      | Titular |
+| Silvia Cuagliarelli      | JTP        |
+| Eugenia Céspedes | Ayudante        |
+
+
+
+<!-- INTEGRANTES -->
+## Integrantes del grupo
+| Alumno  | Legajo  |
+| :------------ |:---------------:|
+| César Ferrarotti      | 113145 |
+| Mariano Rapaport | 155671        |
+
+
+
+<!-- INSTALACION -->
 ## Instalación
  * Clonar el repositorio: `https://github.com/teoria1-grupo7/compi.git`.
  * Compilar ejecutando el archivo Ant `build.xml`.
+ 
+ 
  
  <!-- MARKDOWN LINKS & IMAGES -->
  <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
