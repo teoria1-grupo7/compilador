@@ -1,18 +1,18 @@
 package compilador;
-import java_cup.runtime.*;
+import java_cup.runtime.Symbol;
 
-parser code  {: 
+parser code  {:
   public void report_error(String message, Object info) {
     StringBuilder m = new StringBuilder("Error ");
 
-    if (info instanceof java_cup.runtime.Symbol) 
+    if (info instanceof java_cup.runtime.Symbol)
       m.append( "("+info.toString()+")" );
-     
+
     m.append(" : "+message);
-   
+
     System.out.println(m);
   }
-   
+
   public void report_fatal_error(String message, Object info) {
     report_error(message, info);
     throw new RuntimeException("Fatal Syntax Error");
@@ -51,14 +51,56 @@ terminal java.lang.Number INTEGER_LITERAL;
 terminal java.lang.Number FLOATING_POINT_LITERAL;
 terminal java.lang.String IDENTIFIER;
 
-// 19.2) The Syntactic Grammar
-non terminal goal;
 
-// 19.6) Packages
-non terminal compilation_unit;
+non terminal codigo_fuente, seccion_definicion_variables, seccion_programa,
+             conjunto_variables, definicion_variables, inner_def_var, tipo_de_dato, bloque_sentencias,
+             sentencia, sentencia_simple, estructura, elemento_sentencia_simple, asignacion, funcion_print,
+             expresion, termino, factor, constante_numerica, expresion_booleana, termino_booleano, factor_booleano,
+             operador_relacional, ciclo_while, condicion, condicional_if, condicional_else, funcion_between,
+              parametros_between;
 
-start with goal;
+start with codigo_fuente;
 
-// 19.2) The Syntactic Grammar
-goal ::=	compilation_unit
-	;
+codigo_fuente ::= seccion_definicion_variables seccion_programa | seccion_programa;
+
+seccion_definicion_variables ::= DECLARE conjunto_variables ENDDECLARE;
+conjunto_variables ::= conjunto_variables definicion_variables | definicion_variables;
+definicion_variables ::= LBRACK inner_def_var RBRACK;
+
+
+inner_def_var ::= IDENTIFIER RBRACK VARASSIGN LBRACK tipo_de_dato;
+inner_def_var ::= IDENTIFIER COMMA inner_def_var COMMA tipo_de_dato;
+
+
+seccion_programa ::= BEGINPROGRAM bloque_sentencias ENDPROGRAM;
+
+bloque_sentencias ::= bloque_sentencias sentencia | sentencia;
+
+tipo_de_dato ::= INT | FLOAT | STRING;
+
+sentencia ::= sentencia_simple | estructura;
+sentencia_simple ::= elemento_sentencia_simple;
+elemento_sentencia_simple ::= asignacion | funcion_print;
+asignacion ::= IDENTIFIER ASSIGN expresion  | IDENTIFIER ASSIGN STRING_LITERAL;
+
+expresion ::== expresion PLUS termino | termino;
+expresion ::== expresion MINUS termino;
+
+termino ::= termino MULT factor | factor;
+termino ::= termino DIV factor;
+factor ::= IDENTIFIER | constante_numerica | LPAREN expresion RPAREN;
+
+constante_numerica ::= INTEGER_LITERAL | FLOATING_POINT_LITERAL;
+operador_relacional ::= LT | LTEQ | EQEQ | NOTEQ | GTEQ | GT;
+
+estructura ::= ciclo_while | condicional_if;
+ciclo_while ::= WHILE condicion LBRACE bloque_sentencias RBRACE;
+
+condicional_if ::= IF condicion LBRACE bloque_sentencias RBRACE;
+condicional_if ::= IF condicion LBRACE bloque_sentencias RBRACE condicional_else;
+condicional_else ::= ELSE LBRACE bloque_sentencias RBRACE;
+condicion ::= LPAREN expresion_booleana RPAREN | funcion_between;
+
+funcion_print ::= PRINT STRING_LITERAL;
+funcion_between ::= BETWEEN LPAREN parametros_between RPAREN;
+parametros_between ::= IDENTIFIER COMMA LBRACK INTEGER_LITERAL SEMICOLON INTEGER_LITERAL RBRACK;
