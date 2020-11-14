@@ -99,7 +99,14 @@ ciclo_while ::= WHILE condicion LBRACE bloque_sentencias RBRACE;
 condicional_if ::= IF condicion LBRACE bloque_sentencias RBRACE;
 condicional_if ::= IF condicion LBRACE bloque_sentencias RBRACE condicional_else;
 condicional_else ::= ELSE LBRACE bloque_sentencias RBRACE;
-condicion ::= LPAREN expresion_booleana RPAREN | funcion_between;
+condicion ::= expresion_booleana | funcion_between;
+
+expresion_booleana ::= expresion_booleana OR termino_booleano | termino_booleano;
+expresion_booleana ::= expresion_booleana AND termino_booleano;
+
+termino_booleano ::= LPAREN expresion_booleana RPAREN | LPAREN expresion operador_relacional expresion RPAREN;
+termino_booleano ::= NOT termino_booleano;
+
 
 funcion_print ::= PRINT STRING_LITERAL;
 funcion_between ::= BETWEEN LPAREN parametros_between RPAREN;

@@ -10,4 +10,18 @@ contador = 0
 suma = 7.5
 contar = 18.22
 
+while ((suma < 6) and (contador <= 92)) or (contador >= 92) {
+	contador = contador + 1
+	actual = (contador / 0.342) + (contador * (contar + 4.67))
+	suma = suma + actual
+	}
+
+If ((actual > 2) and (actual <> 0)){
+	</PRINT  "actual es mayor que 2 y distinto de cero"/> </COMENTADO PARA QUE COMPILE!/>
+	palabra = "es mayor"
+}
+Else{
+	PRINT "no es mayor que 2"
+}
+
 END.PROGRAM
