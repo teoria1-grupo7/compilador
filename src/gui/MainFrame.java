@@ -1,9 +1,9 @@
 package gui;
 
+import compilador.JavaSymbol;
+import compilador.Lexico;
 import compilador.SymbolTableEntry;
-import compilador.SymbolWrapper;
 import compilador.sym;
-import java_cup.runtime.Symbol;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -22,7 +22,6 @@ import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class MainFrame extends javax.swing.JFrame {
-    private final static Path PRUEBA_PATH = Paths.get("prueba.txt");
     private final static Path TS_PATH = Paths.get("ts.txt");
 
     private static HashMap<String, SymbolTableEntry> symbolTable = new HashMap<>();
@@ -297,13 +296,12 @@ public class MainFrame extends javax.swing.JFrame {
         //If we are editing a file opened, then we have to save the contents on the same file, currentEditingFile
         if (currentEditingFile != null) {
             try {
-                BufferedReader br = Files.newBufferedReader(PRUEBA_PATH);
-                compilador.Lexico lexico = new compilador.Lexico(br);
+                BufferedReader br = Files.newBufferedReader(Paths.get(currentEditingFile.getPath()));
+                Lexico lexico = new Lexico(br);
                 String salida = "";
                 try {
-                    SymbolWrapper sw = lexico.imprimirProximoToken();
-                    Symbol s = sw.getSymbol();
-                    salida += "Linea: " + sw.getLine() + ", Columna: " + sw.getColumn() + ", Token: " + lexico.getNombreToken(s.sym) + ", Lexema: "+ lexico.yytext() + "\n";
+                    JavaSymbol s = lexico.debuguearProximoToken();
+                    salida += "Linea: " + s.getLine() + ", Columna: " + s.getColumn() + ", Token: " + lexico.getNombreToken(s.sym) + ", Lexema: "+ lexico.yytext() + "\n";
                     while (s.sym != sym.EOF) {
                         salida += s.toString() + "\n";
                         switch(s.sym) {
@@ -314,19 +312,22 @@ public class MainFrame extends javax.swing.JFrame {
                                 break;
                             case sym.STRING_LITERAL:
                                 String string_literal_aux = "_" + s.value.toString();
-                                symbolTable.put(string_literal_aux, new SymbolTableEntry(lexico.getNombreToken(s.sym), null, s.value.toString(), s.value.toString().length()));
+                                if (!symbolTable.containsKey(string_literal_aux)) {
+                                    symbolTable.put(string_literal_aux, new SymbolTableEntry(lexico.getNombreToken(s.sym), null, s.value.toString(), s.value.toString().length()));
+                                };
                                 break;
                             case sym.FLOATING_POINT_LITERAL:
                             case sym.INTEGER_LITERAL:
                                 String numeric_literal_aux = "_" + s.value.toString();
-                                symbolTable.put(numeric_literal_aux, new SymbolTableEntry(lexico.getNombreToken(s.sym), null, s.value.toString(), null));
+                                if (!symbolTable.containsKey(numeric_literal_aux)) {
+                                    symbolTable.put(numeric_literal_aux, new SymbolTableEntry(lexico.getNombreToken(s.sym), null, s.value.toString(), null));
+                                };
                                 break;
                             default:
                                 // code block
                         }
-                        sw = lexico.imprimirProximoToken();
-                        s = sw.getSymbol();
-                        salida += "Linea: " + sw.getLine() + ", Columna: " + sw.getColumn() + ", Token: " + lexico.getNombreToken(s.sym) + ", Lexema: "+ lexico.yytext() + "\n";
+                        s = lexico.debuguearProximoToken();
+                        salida += "Linea: " + s.getLine() + ", Columna: " + s.getColumn() + ", Token: " + lexico.getNombreToken(s.sym) + ", Lexema: "+ lexico.yytext() + "\n";
                     }
                     jTextAreaSalida.setText(salida);
                     jTextAreaTS.setText(outputSymbolTable());

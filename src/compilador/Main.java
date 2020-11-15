@@ -1,4 +1,5 @@
 package compilador;
+
 import java_cup.runtime.Symbol;
 
 import java.io.*;
@@ -46,10 +47,8 @@ public class Main {
             }
 /*
             try {
-                SymbolWrapper sw = lexico.imprimirProximoToken();
-                Symbol s = sw.getSymbol();
+                JavaSymbol s = lexico.debuguearProximoToken();
                 while (s.sym != sym.EOF) {
-                    System.out.println("Linea: " + sw.getLine() + ", Columna: " + sw.getColumn() + ", Token: " + lexico.getNombreToken(s.sym) + ", Lexema: "+ lexico.yytext() + "\n");
                     switch(s.sym) {
                         case sym.IDENTIFIER:
                             if (!symbolTable.containsKey(s.value.toString())) {
@@ -72,8 +71,7 @@ public class Main {
                         default:
                             // code block
                     }
-                    sw = lexico.imprimirProximoToken();
-                    s = sw.getSymbol();
+                    s = lexico.debuguearProximoToken();
                 }
             }
             catch (RuntimeException ex) {
