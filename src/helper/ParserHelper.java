@@ -31,12 +31,10 @@ public class ParserHelper {
     }
 
     public void typeDef(Integer type){
-        System.out.println("Data def " + type);
         types.push(type);
     }
 
     public void varDef(String name){
-        System.out.println("Var def " + name);
         varNames.add(name);
     }
 

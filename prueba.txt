@@ -1,6 +1,8 @@
 DECLARE
 [var, var2] := [INT, FLOAT]
 [var3] := [STRING]
+[var4] := [STRING]
+[var5, var6] := [FLOAT, INT]
 ENDDECLARE
 
 BEGIN.PROGRAM

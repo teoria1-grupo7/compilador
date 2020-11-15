@@ -67,9 +67,9 @@ start with codigo_fuente;
 
 codigo_fuente ::= seccion_definicion_variables seccion_programa | seccion_programa;
 
-seccion_definicion_variables ::= DECLARE conjunto_variables ENDDECLARE {: parser.helper.loadVarsAndTypes(); :};
+seccion_definicion_variables ::= DECLARE conjunto_variables ENDDECLARE ;
 conjunto_variables ::= conjunto_variables definicion_variables | definicion_variables;
-definicion_variables ::= LBRACK inner_def_var RBRACK;
+definicion_variables ::= LBRACK inner_def_var RBRACK {: parser.helper.loadVarsAndTypes(); :};
 
 
 inner_def_var ::= IDENTIFIER:id RBRACK VARASSIGN LBRACK tipo_de_dato  {: parser.helper.varDef(id); :};
