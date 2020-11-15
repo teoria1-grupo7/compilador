@@ -40,7 +40,12 @@ public class Main {
 
             try {
                 Symbol s = par.parse();
-                System.out.println(par.helper.getSymbolTable());
+                par.helper.getSymbolTable().forEach(
+                        (key, value) -> {
+                            SymbolTableEntry symbolTableEntry = (SymbolTableEntry) value;
+                            System.out.println(key + " " + lexico.getNombreToken(symbolTableEntry.getType()));
+                        }
+                );
             }
             catch (Exception e){
                 e.printStackTrace();
