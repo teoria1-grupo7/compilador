@@ -50,10 +50,10 @@ import java_cup.runtime.*;
   /**
    * Parecido a debug_next_token(), pero devuelve también la línea y la columna, la salida es más estética
    */
-  public SymbolWrapper imprimirProximoToken() throws java.io.IOException {
+  public JavaSymbol debuguearProximoToken() throws java.io.IOException {
     java_cup.runtime.Symbol s = next_token();
     System.out.println( "Linea: " + (yyline+1) + ", Columna: " + (yycolumn+1) + ", Token: " + getTokenName(s.sym) + ", Lexema: "+ yytext());
-    return new SymbolWrapper(s, yyline+1, yycolumn+1);
+    return new JavaSymbol(s.sym, yyline+1, yycolumn+1, s.left, s.right, s.value);
   }
 
   /**
