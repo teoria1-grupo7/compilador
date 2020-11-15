@@ -46,8 +46,8 @@
 ## Instalacion y ejecucion
  * Clonar el repositorio en IntelliJ IDEA: `https://github.com/teoria1-grupo7/compilador.git`.
  * Ejecutar el target `run` del `build.xml` con Apache Ant para generar nuevamente las clases de JFlex y JCUP.
- * Puede ejecutarse la clase `compilador/Main.java` para una salida por terminal, y la clase `gui/MainFrame.java` para la interfaz gráfica.
- * Se puede utilizar la versión ya `bin/compilador.jar`.
+ * Puede ejecutarse la clase `compilador/Main.java` para visualizar la salida por terminal, y la clase `gui/MainFrame.java` para la interfaz gráfica.
+ * Se puede utilizar la versión ya compilada `bin/compilador.jar`.
  
  
  

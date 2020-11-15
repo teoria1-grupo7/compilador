@@ -35,7 +35,6 @@ public class Main {
         try {
             BufferedReader br = Files.newBufferedReader(PRUEBA_PATH);
             Lexico lexico = new Lexico(br);
-
             parser par = new parser(lexico);
 
             try {
@@ -45,43 +44,41 @@ public class Main {
             catch (Exception e){
                 e.printStackTrace();
             }
-
-
-//            Lexico sc = new Lexico(br);
-//            try {
-//                SymbolWrapper sw = sc.imprimirProximoToken();
-//                Symbol s = sw.getSymbol();
-//                while (s.sym != sym.EOF) {
-//                    System.out.println("Linea: " + sw.getLine() + ", Columna: " + sw.getColumn() + ", Token: " + sc.getNombreToken(s.sym) + ", Lexema: "+ sc.yytext() + "\n");
-//                    switch(s.sym) {
-//                        case sym.IDENTIFIER:
-//                            if (!symbolTable.containsKey(s.value.toString())) {
-//                                symbolTable.put(s.value.toString(), new SymbolTableEntry(sc.getNombreToken(s.sym), null));
-//                            };
-//                            break;
-//                        case sym.STRING_LITERAL:
-//                            String string_literal_aux = "_" + s.value.toString();
-//                            if (!symbolTable.containsKey(string_literal_aux)) {
-//                                symbolTable.put(string_literal_aux, new SymbolTableEntry(sc.getNombreToken(s.sym), null, s.value.toString(), s.value.toString().length()));
-//                            };
-//                            break;
-//                        case sym.FLOATING_POINT_LITERAL:
-//                        case sym.INTEGER_LITERAL:
-//                            String numeric_literal_aux = "_" + s.value.toString();
-//                            if (!symbolTable.containsKey(numeric_literal_aux)) {
-//                                symbolTable.put(numeric_literal_aux, new SymbolTableEntry(sc.getNombreToken(s.sym), null, s.value.toString(), null));
-//                            };
-//                            break;
-//                        default:
-//                            // code block
-//                    }
-//                    sw = sc.imprimirProximoToken();
-//                    s = sw.getSymbol();
-//                }
-//            }
-//            catch (RuntimeException ex) {
-//                ex.printStackTrace();
-//            }
+/*
+            try {
+                SymbolWrapper sw = lexico.imprimirProximoToken();
+                Symbol s = sw.getSymbol();
+                while (s.sym != sym.EOF) {
+                    System.out.println("Linea: " + sw.getLine() + ", Columna: " + sw.getColumn() + ", Token: " + lexico.getNombreToken(s.sym) + ", Lexema: "+ lexico.yytext() + "\n");
+                    switch(s.sym) {
+                        case sym.IDENTIFIER:
+                            if (!symbolTable.containsKey(s.value.toString())) {
+                                symbolTable.put(s.value.toString(), new SymbolTableEntry(lexico.getNombreToken(s.sym), null));
+                            };
+                            break;
+                        case sym.STRING_LITERAL:
+                            String string_literal_aux = "_" + s.value.toString();
+                            if (!symbolTable.containsKey(string_literal_aux)) {
+                                symbolTable.put(string_literal_aux, new SymbolTableEntry(lexico.getNombreToken(s.sym), null, s.value.toString(), s.value.toString().length()));
+                            };
+                            break;
+                        case sym.FLOATING_POINT_LITERAL:
+                        case sym.INTEGER_LITERAL:
+                            String numeric_literal_aux = "_" + s.value.toString();
+                            if (!symbolTable.containsKey(numeric_literal_aux)) {
+                                symbolTable.put(numeric_literal_aux, new SymbolTableEntry(lexico.getNombreToken(s.sym), null, s.value.toString(), null));
+                            };
+                            break;
+                        default:
+                            // code block
+                    }
+                    sw = lexico.imprimirProximoToken();
+                    s = sw.getSymbol();
+                }
+            }
+            catch (RuntimeException ex) {
+                ex.printStackTrace();
+            }*/
         }
         catch (IOException ex) {
             System.err.println("No se pudo abrir el archivo de prueba " + PRUEBA_PATH.toString() + ".");

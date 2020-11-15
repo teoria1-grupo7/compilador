@@ -20,10 +20,10 @@
 	</target>
 
 	<target name="scanner">
-		<jflex file="flex/lexico.flex" destdir="src"></jflex>
+		<jflex file="flex/Lexico.flex" destdir="src"></jflex>
 	</target>
 
 	<target name="cup">
-		<cup srcfile="flex/java12.cup" interface="yes" destdir="src"></cup>
+		<cup srcfile="flex/Sintactico.cup" interface="yes" destdir="src"></cup>
 	</target>
 </project>

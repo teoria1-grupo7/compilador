@@ -226,36 +226,36 @@ public class MainFrame extends javax.swing.JFrame {
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 1024, Short.MAX_VALUE)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jTabbedPaneCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 640, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTabbedPaneSalida))
-            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 1024, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jTabbedPaneCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 640, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTabbedPaneSalida))
+                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jTabbedPaneSalida, javax.swing.GroupLayout.DEFAULT_SIZE, 500, Short.MAX_VALUE)
-                    .addComponent(jTabbedPaneCodigo))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(jTabbedPaneSalida, javax.swing.GroupLayout.DEFAULT_SIZE, 500, Short.MAX_VALUE)
+                                        .addComponent(jTabbedPaneCodigo))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -298,35 +298,35 @@ public class MainFrame extends javax.swing.JFrame {
         if (currentEditingFile != null) {
             try {
                 BufferedReader br = Files.newBufferedReader(PRUEBA_PATH);
-                compilador.Lexico sc = new compilador.Lexico(br);
+                compilador.Lexico lexico = new compilador.Lexico(br);
                 String salida = "";
                 try {
-                    SymbolWrapper sw = sc.imprimirProximoToken();
+                    SymbolWrapper sw = lexico.imprimirProximoToken();
                     Symbol s = sw.getSymbol();
-                    salida += "Linea: " + sw.getLine() + ", Columna: " + sw.getColumn() + ", Token: " + sc.getNombreToken(s.sym) + ", Lexema: "+ sc.yytext() + "\n";
+                    salida += "Linea: " + sw.getLine() + ", Columna: " + sw.getColumn() + ", Token: " + lexico.getNombreToken(s.sym) + ", Lexema: "+ lexico.yytext() + "\n";
                     while (s.sym != sym.EOF) {
                         salida += s.toString() + "\n";
                         switch(s.sym) {
                             case sym.IDENTIFIER:
                                 if (!symbolTable.containsKey(s.value.toString())) {
-                                    symbolTable.put(s.value.toString(), new SymbolTableEntry(sc.getNombreToken(s.sym), null));
+                                    symbolTable.put(s.value.toString(), new SymbolTableEntry(lexico.getNombreToken(s.sym), null));
                                 };
                                 break;
                             case sym.STRING_LITERAL:
                                 String string_literal_aux = "_" + s.value.toString();
-                                symbolTable.put(string_literal_aux, new SymbolTableEntry(sc.getNombreToken(s.sym), null, s.value.toString(), s.value.toString().length()));
+                                symbolTable.put(string_literal_aux, new SymbolTableEntry(lexico.getNombreToken(s.sym), null, s.value.toString(), s.value.toString().length()));
                                 break;
                             case sym.FLOATING_POINT_LITERAL:
                             case sym.INTEGER_LITERAL:
                                 String numeric_literal_aux = "_" + s.value.toString();
-                                symbolTable.put(numeric_literal_aux, new SymbolTableEntry(sc.getNombreToken(s.sym), null, s.value.toString(), null));
+                                symbolTable.put(numeric_literal_aux, new SymbolTableEntry(lexico.getNombreToken(s.sym), null, s.value.toString(), null));
                                 break;
                             default:
                                 // code block
                         }
-                        sw = sc.imprimirProximoToken();
+                        sw = lexico.imprimirProximoToken();
                         s = sw.getSymbol();
-                        salida += "Linea: " + sw.getLine() + ", Columna: " + sw.getColumn() + ", Token: " + sc.getNombreToken(s.sym) + ", Lexema: "+ sc.yytext() + "\n";
+                        salida += "Linea: " + sw.getLine() + ", Columna: " + sw.getColumn() + ", Token: " + lexico.getNombreToken(s.sym) + ", Lexema: "+ lexico.yytext() + "\n";
                     }
                     jTextAreaSalida.setText(salida);
                     jTextAreaTS.setText(outputSymbolTable());
@@ -358,7 +358,7 @@ public class MainFrame extends javax.swing.JFrame {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
