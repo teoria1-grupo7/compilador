@@ -1,18 +1,18 @@
 package compilador;
 
 public class SymbolTableEntry {
-    public SymbolTableEntry(String token, Integer type){
+    public SymbolTableEntry(String token, String type){
         setToken(token);
         setType(type);
     }
-    public SymbolTableEntry(String token, Integer type, Object value, Integer length){
+    public SymbolTableEntry(String token, String type, Object value, Integer length){
         setToken(token);
         setType(type);
         setVal(value);
         setLen(length);
     }
     private String token;
-    private Integer type;
+    private String type;
     private Object val;
     private Integer len;
     public String getToken() {
@@ -23,11 +23,11 @@ public class SymbolTableEntry {
         this.token = token;
     }
 
-    public Integer getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(Integer type) {
+    public void setType(String type) {
         this.type = type;
     }
 

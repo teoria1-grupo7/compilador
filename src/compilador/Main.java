@@ -10,21 +10,20 @@ import java.util.HashMap;
 
 import java.io.IOException;
 
-
-
 public class Main {
     private final static Path PRUEBA_PATH = Paths.get("prueba.txt");
     private final static Path TS_PATH = Paths.get("ts.txt");
 
-    private static HashMap<String, SymbolTableEntry> symbolTable = new HashMap<>();
-
-    public static void outputSymbolTable() {
+    public static void outputSymbolTable(HashMap<String, SymbolTableEntry> symbolTable) {
         try {
             PrintWriter pw =  new PrintWriter(Files.newOutputStream(TS_PATH));
             String fmt = "%31s%31s%10s%31s%31s\n";
             pw.printf(fmt, "NOMBRE", "TOKEN", "TIPO", "VALOR", "LONGITUD");
             symbolTable.entrySet().forEach( entry -> {
-                pw.printf(fmt, entry.getKey(), entry.getValue().getToken(), entry.getValue().getType(), entry.getValue().getVal(), entry.getValue().getLen());
+                pw.printf(fmt, entry.getKey(), entry.getValue().getToken(),
+                        entry.getValue().getType() != null ? entry.getValue().getType() : "-",
+                        entry.getValue().getVal() != null ? entry.getValue().getVal() : "-",
+                        entry.getValue().getLen() != null ? entry.getValue().getLen() : "-");
             });
             pw.close();
         } catch (IOException e1) {
@@ -40,12 +39,7 @@ public class Main {
 
             try {
                 Symbol s = par.parse();
-                par.helper.getSymbolTable().forEach(
-                        (key, value) -> {
-                            SymbolTableEntry symbolTableEntry = (SymbolTableEntry) value;
-                            System.out.println(key + " " + lexico.getNombreToken(symbolTableEntry.getType()));
-                        }
-                );
+                outputSymbolTable(par.helper.getSymbolTable());
             }
             catch (Exception e){
                 e.printStackTrace();

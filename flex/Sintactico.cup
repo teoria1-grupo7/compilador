@@ -24,6 +24,31 @@ parser code {:
   }
 :};
 
+
+action code {:
+
+    public void varDef(String id) {
+        parser.helper.varDef(id);
+    }
+
+    public void loadVarsAndTypes() {
+        parser.helper.loadVarsAndTypes();
+    }
+
+    public void addCteInt(Number cte){
+        parser.helper.addCteInt(cte);
+    }
+
+    public void addCteFloat(Number cte){
+        parser.helper.addCteFloat(cte);
+    }
+
+    public void addCteString(String cte){
+        parser.helper.addCteString(cte);
+    }
+
+:};
+
 terminal BEGINPROGRAM;
 terminal ENDPROGRAM;
 terminal DECLARE;
@@ -59,7 +84,7 @@ terminal java.lang.String IDENTIFIER;
 non terminal codigo_fuente, seccion_definicion_variables, seccion_programa,
              conjunto_variables, definicion_variables, inner_def_var, tipo_de_dato, bloque_sentencias,
              sentencia, sentencia_simple, estructura, elemento_sentencia_simple, asignacion, funcion_print,
-             expresion, termino, factor, constante_numerica, expresion_booleana, termino_booleano, factor_booleano,
+             expresion, termino, factor, constante_numerica, constante_string, expresion_booleana, termino_booleano, factor_booleano,
              operador_relacional, ciclo_while, condicion, condicional_if, condicional_else, funcion_between,
              parametros_between;
 
@@ -69,11 +94,11 @@ codigo_fuente ::= seccion_definicion_variables seccion_programa | seccion_progra
 
 seccion_definicion_variables ::= DECLARE conjunto_variables ENDDECLARE ;
 conjunto_variables ::= conjunto_variables definicion_variables | definicion_variables;
-definicion_variables ::= LBRACK inner_def_var RBRACK {: parser.helper.loadVarsAndTypes(); :};
+definicion_variables ::= LBRACK inner_def_var RBRACK {: loadVarsAndTypes(); :};
 
 
-inner_def_var ::= IDENTIFIER:id RBRACK VARASSIGN LBRACK tipo_de_dato  {: parser.helper.varDef(id); :};
-inner_def_var ::= IDENTIFIER:id COMMA inner_def_var COMMA tipo_de_dato {: parser.helper.varDef(id); :};
+inner_def_var ::= IDENTIFIER:id RBRACK VARASSIGN LBRACK tipo_de_dato  {: varDef(id); :};
+inner_def_var ::= IDENTIFIER:id COMMA inner_def_var COMMA tipo_de_dato {: varDef(id); :};
 
 seccion_programa ::= BEGINPROGRAM bloque_sentencias ENDPROGRAM;
 
@@ -86,7 +111,7 @@ tipo_de_dato ::= INT {:parser.helper.typeDef(sym.INT);:}|
 sentencia ::= sentencia_simple | estructura;
 sentencia_simple ::= elemento_sentencia_simple;
 elemento_sentencia_simple ::= asignacion | funcion_print;
-asignacion ::= IDENTIFIER ASSIGN expresion  | IDENTIFIER ASSIGN STRING_LITERAL;
+asignacion ::= IDENTIFIER ASSIGN expresion  | IDENTIFIER ASSIGN constante_string;
 
 expresion ::== expresion PLUS termino | termino;
 expresion ::== expresion MINUS termino;
@@ -95,7 +120,9 @@ termino ::= termino MULT factor | factor;
 termino ::= termino DIV factor;
 factor ::= IDENTIFIER | constante_numerica | LPAREN expresion RPAREN;
 
-constante_numerica ::= INTEGER_LITERAL | FLOATING_POINT_LITERAL;
+constante_numerica ::= INTEGER_LITERAL:cte_int {: addCteInt(cte_int); :}
+                        | FLOATING_POINT_LITERAL:cte_float {:addCteFloat(cte_float); :};
+
 operador_relacional ::= LT | LTEQ | EQEQ | NOTEQ | GTEQ | GT;
 
 estructura ::= ciclo_while | condicional_if;
@@ -112,7 +139,8 @@ expresion_booleana ::= expresion_booleana AND termino_booleano;
 termino_booleano ::= LPAREN expresion_booleana RPAREN | LPAREN expresion operador_relacional expresion RPAREN;
 termino_booleano ::= NOT termino_booleano;
 
+constante_string ::= STRING_LITERAL:cte_string {: addCteString(cte_string); :};
 
-funcion_print ::= PRINT STRING_LITERAL;
+funcion_print ::= PRINT constante_string;
 funcion_between ::= BETWEEN LPAREN parametros_between RPAREN;
 parametros_between ::= IDENTIFIER COMMA LBRACK INTEGER_LITERAL SEMICOLON INTEGER_LITERAL RBRACK;

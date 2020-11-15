@@ -41,10 +41,35 @@ public class ParserHelper {
     public void loadVarsAndTypes(){
         varNames.forEach(var -> {
             Integer dataType = types.pop();
-            SymbolTableEntry symbolTableEntry = new SymbolTableEntry(lexico.getNombreToken(sym.IDENTIFIER), dataType, null, null);
+            SymbolTableEntry symbolTableEntry = new SymbolTableEntry(lexico.getNombreToken(sym.IDENTIFIER),
+                    lexico.getNombreToken(dataType), null, null);
             symbolTable.put(var, symbolTableEntry);
         });
+
         varNames = new ArrayList<>();
+    }
+
+    public void addCteInt(Number cte) {
+        String cteNumString = Integer.toString(cte.intValue());
+        String string_literal_aux = "_"  + cteNumString;
+        SymbolTableEntry symbolTableEntry =
+                new SymbolTableEntry(lexico.getNombreToken(sym.INTEGER_LITERAL), lexico.getNombreToken(sym.INT), cteNumString, null);
+        symbolTable.put(string_literal_aux, symbolTableEntry);
+    }
+
+    public void addCteFloat(Number cte) {
+        String cteNumString = Double.toString(cte.doubleValue());
+        String string_literal_aux = "_"  + cteNumString;
+        SymbolTableEntry symbolTableEntry =
+                new SymbolTableEntry(lexico.getNombreToken(sym.FLOATING_POINT_LITERAL), null, cteNumString, null);
+        symbolTable.put(string_literal_aux, symbolTableEntry);
+    }
+
+    public void addCteString(String cte){
+        String string_literal_aux = "_"  + cte;
+        SymbolTableEntry symbolTableEntry =
+                new SymbolTableEntry(lexico.getNombreToken(sym.STRING_LITERAL), null, cte, cte.length());
+        symbolTable.put(string_literal_aux, symbolTableEntry);
     }
 
 }
