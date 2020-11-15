@@ -5,6 +5,7 @@ import compilador.Lexico;
 import compilador.SymbolTableEntry;
 import compilador.sym;
 
+import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.*;
@@ -62,9 +63,11 @@ public class MainFrame extends javax.swing.JFrame {
             @Override
             public void windowClosing(WindowEvent e) {
                 super.windowClosing(e); //To change body of generated methods, choose Tools | Templates.
-                int ans = JOptionPane.showConfirmDialog(rootPane, "¿Guardar cambios?", "Confirmar", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-                if (ans == JOptionPane.YES_OPTION) {
-                    saveChanges();
+                if (currentEditingFile != null) {
+                    int ans = JOptionPane.showConfirmDialog(rootPane, "¿Guardar cambios?", "Confirmar", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                    if (ans == JOptionPane.YES_OPTION) {
+                        saveChanges();
+                    }
                 }
             }
 
@@ -131,7 +134,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         jTabbedPaneSalida = new javax.swing.JTabbedPane();
         jScrollPaneSalida = new javax.swing.JScrollPane();
-        jTextAreaSalida = new javax.swing.JTextArea();
+        jTextPaneSalida = new javax.swing.JTextPane();
         jScrollPaneTS = new javax.swing.JScrollPane();
         jTextAreaTS = new javax.swing.JTextArea();
 
@@ -142,7 +145,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Compilador");
-        setResizable(false);
+        setResizable(true);
 
         jToolBar1.setBackground(new java.awt.Color(255, 255, 255));
         jToolBar1.setRollover(true);
@@ -206,11 +209,11 @@ public class MainFrame extends javax.swing.JFrame {
 
         jTabbedPaneCodigo.addTab("CODIGO", jScrollPaneCodigo);
 
-        jTextAreaSalida.setColumns(20);
-        jTextAreaSalida.setFont(new java.awt.Font("Monospaced", 0, 14)); // NOI18N
-        jTextAreaSalida.setLineWrap(false);
-        jTextAreaSalida.setRows(5);
-        jScrollPaneSalida.setViewportView(jTextAreaSalida);
+        //jTextPaneSalida.setColumns(20);
+        jTextPaneSalida.setFont(new java.awt.Font("Monospaced", 0, 14)); // NOI18N
+        //jTextPaneSalida.setLineWrap(false);
+        //jTextPaneSalida.setRows(5);
+        jScrollPaneSalida.setViewportView(jTextPaneSalida);
 
         jTabbedPaneSalida.addTab("SALIDA", jScrollPaneSalida);
 
@@ -293,17 +296,17 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonAbrirActionPerformed
 
     private void jButtonCompilarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCompilarActionPerformed
-        //If we are editing a file opened, then we have to save the contents on the same file, currentEditingFile
         if (currentEditingFile != null) {
+            MessageConsole mc = new MessageConsole(jTextPaneSalida);
+            mc.redirectOut();
+            mc.redirectErr(Color.RED, null);
+            mc.setMessageLines(500);
             try {
                 BufferedReader br = Files.newBufferedReader(Paths.get(currentEditingFile.getPath()));
                 Lexico lexico = new Lexico(br);
-                String salida = "";
                 try {
                     JavaSymbol s = lexico.debuguearProximoToken();
-                    salida += "Linea: " + s.getLine() + ", Columna: " + s.getColumn() + ", Token: " + lexico.getNombreToken(s.sym) + ", Lexema: "+ lexico.yytext() + "\n";
                     while (s.sym != sym.EOF) {
-                        salida += s.toString() + "\n";
                         switch(s.sym) {
                             case sym.IDENTIFIER:
                                 if (!symbolTable.containsKey(s.value.toString())) {
@@ -327,14 +330,13 @@ public class MainFrame extends javax.swing.JFrame {
                                 // code block
                         }
                         s = lexico.debuguearProximoToken();
-                        salida += "Linea: " + s.getLine() + ", Columna: " + s.getColumn() + ", Token: " + lexico.getNombreToken(s.sym) + ", Lexema: "+ lexico.yytext() + "\n";
                     }
-                    jTextAreaSalida.setText(salida);
                     jTextAreaTS.setText(outputSymbolTable());
                 }
                 catch (RuntimeException ex) {
                     ex.printStackTrace();
                 }
+                br.close();
             } catch (FileNotFoundException ex) {
                 Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IOException e) {
@@ -345,13 +347,13 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void jButtonAgrandarTextoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAgrandarTextoActionPerformed
         display.setFont(new java.awt.Font("Monospaced", 0, ++fontSize));
-        jTextAreaSalida.setFont(new java.awt.Font("Monospaced", 0, ++fontSize));
+        jTextPaneSalida.setFont(new java.awt.Font("Monospaced", 0, ++fontSize));
         jTextAreaTS.setFont(new java.awt.Font("Monospaced", 0, ++fontSize));
     }//GEN-LAST:event_jButtonAgrandarTextoActionPerformed
 
     private void jButtonAchicarTextoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAchicarTextoActionPerformed
         display.setFont(new java.awt.Font("Monospaced", 0, --fontSize));
-        jTextAreaSalida.setFont(new java.awt.Font("Monospaced", 0, --fontSize));
+        jTextPaneSalida.setFont(new java.awt.Font("Monospaced", 0, --fontSize));
         jTextAreaTS.setFont(new java.awt.Font("Monospaced", 0, --fontSize));
     }//GEN-LAST:event_jButtonAchicarTextoActionPerformed
 
@@ -389,7 +391,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextArea display;
-    private javax.swing.JTextArea jTextAreaSalida;
+    private javax.swing.JTextPane jTextPaneSalida;
     private javax.swing.JTextArea jTextAreaTS;
     private javax.swing.JFileChooser fileOpener;
     private javax.swing.JButton jButtonAbrir;
