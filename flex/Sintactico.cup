@@ -46,7 +46,6 @@ action code {:
     public void addCteString(String cte){
         parser.helper.addCteString(cte);
     }
-
 :};
 
 terminal BEGINPROGRAM;
@@ -66,14 +65,14 @@ terminal LPAREN, RPAREN, LBRACE, RBRACE;
 terminal LBRACK, RBRACK;
 terminal SEMICOLON, COMMA;
 
-terminal AND; // conditional_and_expression
-terminal OR; // conditional_or_expression
-terminal LT, LTEQ; // relational_expression
-terminal EQEQ, NOTEQ; // equality_expression
-terminal GTEQ, GT; // relational_expression
+terminal AND;
+terminal OR;
+terminal LT, LTEQ;
+terminal EQEQ, NOTEQ;
+terminal GTEQ, GT;
 terminal NOT;
-terminal VARASSIGN; //type assignment
-terminal ASSIGN; //assignment
+terminal VARASSIGN;
+terminal ASSIGN;
 terminal PLUS, MINUS, MULT, DIV;
 
 terminal java.lang.String STRING_LITERAL;
@@ -81,66 +80,278 @@ terminal java.lang.Number INTEGER_LITERAL;
 terminal java.lang.Number FLOATING_POINT_LITERAL;
 terminal java.lang.String IDENTIFIER;
 
-non terminal codigo_fuente, seccion_definicion_variables, seccion_programa,
-             conjunto_variables, definicion_variables, inner_def_var, tipo_de_dato, bloque_sentencias,
-             sentencia, sentencia_simple, estructura, elemento_sentencia_simple, asignacion, funcion_print,
-             expresion, termino, factor, constante_numerica, constante_string, expresion_booleana, termino_booleano, factor_booleano,
-             operador_relacional, ciclo_while, condicion, condicional_if, condicional_else, funcion_between,
-             parametros_between;
+non terminal
+    codigo_fuente,
+    seccion_definicion_variables,
+    seccion_programa,
+    conjunto_variables,
+    definicion_variables,
+    inner_def_var,
+    tipo_de_dato,
+    bloque_sentencias,
+    sentencia,
+    sentencia_simple,
+    estructura,
+    elemento_sentencia_simple,
+    asignacion,
+    funcion_print,
+    expresion,
+    termino,
+    factor,
+    constante_numerica,
+    constante_string,
+    expresion_booleana,
+    termino_booleano,
+    factor_booleano,
+    operador_relacional,
+    ciclo_while,
+    condicion,
+    condicional_if,
+    condicional_else,
+    funcion_between,
+    parametros_between;
 
 start with codigo_fuente;
 
-codigo_fuente ::= seccion_definicion_variables seccion_programa | seccion_programa;
+codigo_fuente ::=
+    seccion_definicion_variables seccion_programa {:
+        System.out.println("[codigo_fuente01] Compilación exitosa de programa con variables");
+    :}
+    | seccion_programa {:
+        System.out.println("[codigo_fuente02] Compilación exitosa de programa simple");
+    :};
 
-seccion_definicion_variables ::= DECLARE conjunto_variables ENDDECLARE ;
-conjunto_variables ::= conjunto_variables definicion_variables | definicion_variables;
-definicion_variables ::= LBRACK inner_def_var RBRACK {: loadVarsAndTypes(); :};
+
+seccion_definicion_variables ::=
+    DECLARE conjunto_variables ENDDECLARE {:
+        System.out.println("[seccion_definicion_variables01] Fin de la declaración de variables");
+    :};
+
+conjunto_variables ::=
+    conjunto_variables definicion_variables {:
+        System.out.println("[conjunto_variables01] Múltiples definiciones");
+    :}
+    | definicion_variables {:
+        System.out.println("[conjunto_variables02] Única definición");
+    :};
+
+definicion_variables ::= LBRACK inner_def_var RBRACK {:
+        loadVarsAndTypes();
+        //BORRAME:
+        //Acá habría que pedirle al helper las variables y los tipos de datos en orden para poder mostrarlos.
+        System.out.println("[definicion_variables01] ");
+    :};
+
+inner_def_var ::=
+    IDENTIFIER:id RBRACK VARASSIGN LBRACK tipo_de_dato:tipo {:
+        System.out.println("[inner_def_var01] ");
+        varDef(id);
+        //RESULT = id + tipo;
+    :};
+inner_def_var ::=
+    IDENTIFIER:id COMMA inner_def_var COMMA tipo_de_dato:tipo {:
+        System.out.println("[inner_def_var02] Definición compuesta");
+        varDef(id);
+        //RESULT = id + tipo;
+    :};
 
 
-inner_def_var ::= IDENTIFIER:id RBRACK VARASSIGN LBRACK tipo_de_dato  {: varDef(id); :};
-inner_def_var ::= IDENTIFIER:id COMMA inner_def_var COMMA tipo_de_dato {: varDef(id); :};
+seccion_programa ::=
+    BEGINPROGRAM bloque_sentencias ENDPROGRAM{:
+        System.out.println("[seccion_programa01] Fin del código del programa");
+    :};
 
-seccion_programa ::= BEGINPROGRAM bloque_sentencias ENDPROGRAM;
+bloque_sentencias ::=
+    bloque_sentencias sentencia {:
+        System.out.println("[bloque_sentencias01] Múltiples sentencias");
+    :}
+    | sentencia {:
+        System.out.println("[bloque_sentencias02] Única sentencia");
+    :};
 
-bloque_sentencias ::= bloque_sentencias sentencia | sentencia;
+tipo_de_dato ::=
+    INT:entero {:
+        parser.helper.typeDef(sym.INT);
+        System.out.println("[tipo_de_dato01] "+entero);
+        RESULT = entero;
+        :}
+    | FLOAT:real {:
+        parser.helper.typeDef(sym.FLOAT);
+        System.out.println("[tipo_de_dato02] "+real);
+        RESULT = real;
+    :}
+    | STRING:cadena {:
+        parser.helper.typeDef(sym.STRING);
+        System.out.println("[tipo_de_dato03] "+cadena);
+        RESULT = cadena;
+    :};
 
-tipo_de_dato ::= INT {:parser.helper.typeDef(sym.INT);:}|
-                 FLOAT {:parser.helper.typeDef(sym.FLOAT);:}|
-                 STRING {:parser.helper.typeDef(sym.STRING);:};
 
-sentencia ::= sentencia_simple | estructura;
-sentencia_simple ::= elemento_sentencia_simple;
-elemento_sentencia_simple ::= asignacion | funcion_print;
-asignacion ::= IDENTIFIER ASSIGN expresion  | IDENTIFIER ASSIGN constante_string;
+sentencia ::=
+    sentencia_simple {:
+        System.out.println("[sentencia01] Sentencia simple");
+    :}
+    | estructura {:
+        System.out.println("[sentencia02] Bloque de sentencias");
+    :};
 
-expresion ::== expresion PLUS termino | termino;
-expresion ::== expresion MINUS termino;
+sentencia_simple ::=
+    elemento_sentencia_simple {:
+        System.out.println("[sentencia_simple01] ");
+    :};
 
-termino ::= termino MULT factor | factor;
-termino ::= termino DIV factor;
-factor ::= IDENTIFIER | constante_numerica | LPAREN expresion RPAREN;
+elemento_sentencia_simple ::=
+    asignacion {:
+        System.out.println("[elemento_sentencia_simple01] Asignación");
+    :}
+    | funcion_print {:
+        System.out.println("[elemento_sentencia_simple02] Función PRINT");
+    :};
 
-constante_numerica ::= INTEGER_LITERAL:cte_int {: addCteInt(cte_int); :}
-                        | FLOATING_POINT_LITERAL:cte_float {:addCteFloat(cte_float); :};
+asignacion ::=
+    IDENTIFIER:id ASSIGN expresion:ex {:
+        System.out.println("[asignacion01] Asigna expresión "+id+" <- "+ex);
+    :}
+    | IDENTIFIER:id ASSIGN constante_string:cte_string {:
+        System.out.println("[asignacion02] Asigna string "+id+" <- \""+cte_string+"\"");
+    :};
+
+expresion ::=
+    expresion:ex PLUS termino:t {:
+        System.out.println("[expresion01] ");
+        RESULT = ex+"+"+t;
+    :}
+    | termino:t {:
+        System.out.println("[expresion02] ");
+        RESULT = t;
+    :};
+expresion ::=
+    expresion:ex MINUS termino:t {:
+        System.out.println("[expresion03] ");
+        RESULT = ex+"-"+t;
+    :};
+
+termino ::=
+    termino:t MULT factor:f {:
+        System.out.println("[termino01] ");
+        RESULT = t+"*"+f;
+    :}
+    | factor:f {:
+        System.out.println("[termino02] ");
+        RESULT = f;
+    :};
+termino ::=
+    termino:t DIV factor:f {:
+        System.out.println("[termino03] ");
+        RESULT = t+"/"+f;
+    :};
+
+factor ::=
+    IDENTIFIER:id {:
+        System.out.println("[factor01] ");
+        RESULT = id;
+    :}
+    | constante_numerica:num {:
+        System.out.println("[factor02] ");
+        RESULT = num;
+    :}
+    | LPAREN expresion:ex RPAREN {:
+        System.out.println("[factor03] ");
+        RESULT = ex;
+    :};
+
+constante_numerica ::=
+    INTEGER_LITERAL:cte_int {:
+        addCteInt(cte_int);
+        System.out.println("[constante_numerica01] "+cte_int);
+    :}
+    | FLOATING_POINT_LITERAL:cte_float {:
+        addCteFloat(cte_float);
+        System.out.println("[constante_numerica02] "+cte_float);
+    :};
 
 operador_relacional ::= LT | LTEQ | EQEQ | NOTEQ | GTEQ | GT;
 
-estructura ::= ciclo_while | condicional_if;
-ciclo_while ::= WHILE condicion LBRACE bloque_sentencias RBRACE;
 
-condicional_if ::= IF condicion LBRACE bloque_sentencias RBRACE;
-condicional_if ::= IF condicion LBRACE bloque_sentencias RBRACE condicional_else;
-condicional_else ::= ELSE LBRACE bloque_sentencias RBRACE;
-condicion ::= expresion_booleana:expr | funcion_between  ;
+estructura ::=
+    ciclo_while {:
+        System.out.println("[estructura01] ");
+    :}
+    | condicional_if {:
+        System.out.println("[estructura02] ");
+    :};
 
-expresion_booleana ::= expresion_booleana OR termino_booleano | termino_booleano;
-expresion_booleana ::= expresion_booleana AND termino_booleano;
 
-termino_booleano ::= LPAREN expresion_booleana RPAREN | LPAREN expresion operador_relacional expresion RPAREN;
-termino_booleano ::= NOT termino_booleano;
+ciclo_while ::=
+    WHILE condicion LBRACE bloque_sentencias RBRACE {:
+        System.out.println("[ciclo_while01] ");
+    :};
 
-constante_string ::= STRING_LITERAL:cte_string {: addCteString(cte_string); :};
 
-funcion_print ::= PRINT constante_string;
-funcion_between ::= BETWEEN LPAREN parametros_between RPAREN;
-parametros_between ::= IDENTIFIER COMMA LBRACK INTEGER_LITERAL SEMICOLON INTEGER_LITERAL RBRACK;
+condicional_if ::=
+    IF condicion LBRACE bloque_sentencias RBRACE {:
+        System.out.println("[condicional_if01] ");
+    :};
+condicional_if ::=
+    IF condicion LBRACE bloque_sentencias RBRACE condicional_else {:
+        System.out.println("[condicional_if02] ");
+    :};
+condicional_else ::=
+    ELSE LBRACE bloque_sentencias RBRACE {:
+        System.out.println("[condicional_if03] ");
+    :};
+
+
+condicion ::=
+    expresion_booleana:expr {:
+        System.out.println("[condicion01] ");
+    :}
+    | funcion_between {:
+        System.out.println("[condicion02] ");
+    :};
+
+expresion_booleana ::=
+    expresion_booleana OR termino_booleano {:
+        System.out.println("[expresion_booleana01] ");
+    :}
+    | termino_booleano {:
+        System.out.println("[expresion_booleana02] ");
+    :};
+expresion_booleana ::=
+    expresion_booleana AND termino_booleano {:
+        System.out.println("[expresion_booleana03] ");
+    :};
+
+termino_booleano ::=
+    LPAREN expresion_booleana RPAREN {:
+        System.out.println("[termino_booleano01] ");
+    :}
+    | LPAREN expresion operador_relacional expresion RPAREN {:
+        System.out.println("[termino_booleano02] ");
+    :};
+termino_booleano ::=
+    NOT termino_booleano {:
+        System.out.println("[termino_booleano03] ");
+    :};
+
+constante_string ::=
+    STRING_LITERAL:cte_string {:
+        addCteString(cte_string);
+        System.out.println("[constante_string01] "+cte_string);
+        RESULT = cte_string;
+    :};
+
+funcion_print ::=
+    PRINT constante_string:cadena {:
+        System.out.println("[funcion_print01] PRINT"+cadena);
+    :};
+
+funcion_between ::=
+    BETWEEN LPAREN parametros_between:param RPAREN {:
+        System.out.println("[funcion_between01] BETWEEN con variable "+param);
+    :};
+parametros_between ::=
+    IDENTIFIER:var COMMA LBRACK INTEGER_LITERAL:inf SEMICOLON INTEGER_LITERAL:sup RBRACK {:
+        System.out.println("[parametros_between01] "+inf+", "+sup);
+        RESULT = "\"" + var + "\" entre " + inf + " y " + sup;
+    :};

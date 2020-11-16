@@ -1,9 +1,7 @@
 package gui;
 
-import compilador.JavaSymbol;
-import compilador.Lexico;
-import compilador.SymbolTableEntry;
-import compilador.sym;
+import compilador.*;
+import java_cup.runtime.Symbol;
 
 import java.awt.*;
 import java.awt.event.WindowAdapter;
@@ -25,19 +23,22 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 public class MainFrame extends javax.swing.JFrame {
     private final static Path TS_PATH = Paths.get("ts.txt");
 
-    private static HashMap<String, SymbolTableEntry> symbolTable = new HashMap<>();
-
-    public String outputSymbolTable() {
+    public String outputSymbolTable(HashMap<String, SymbolTableEntry> symbolTable) {
         String salida = "";
         try {
             PrintWriter pw =  new PrintWriter(Files.newOutputStream(TS_PATH));
             String fmt = "%31s%31s%10s%31s%31s\n";
             salida += String.format(fmt, "NOMBRE", "TOKEN", "TIPO", "VALOR", "LONGITUD");
-
             for (Map.Entry<String, SymbolTableEntry> entry : symbolTable.entrySet()) {
-                pw.printf(fmt, entry.getKey(), entry.getValue().getToken(), entry.getValue().getType(), entry.getValue().getVal(), entry.getValue().getLen());
-                salida += String.format(fmt, entry.getKey(), entry.getValue().getToken(), entry.getValue().getType(), entry.getValue().getVal(), entry.getValue().getLen());
-            }
+                pw.printf(fmt, entry.getKey(), entry.getValue().getToken(),
+                        entry.getValue().getType() != null ? entry.getValue().getType() : "-",
+                        entry.getValue().getVal() != null ? entry.getValue().getVal() : "-",
+                        entry.getValue().getLen() != null ? entry.getValue().getLen() : "-");
+                salida += String.format(fmt, entry.getKey(), entry.getValue().getToken(),
+                        entry.getValue().getType() != null ? entry.getValue().getType() : "-",
+                        entry.getValue().getVal() != null ? entry.getValue().getVal() : "-",
+                        entry.getValue().getLen() != null ? entry.getValue().getLen() : "-");
+            };
             pw.close();
         } catch (IOException e1) {
             e1.printStackTrace();
@@ -296,6 +297,7 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonAbrirActionPerformed
 
     private void jButtonCompilarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCompilarActionPerformed
+        saveChanges();
         if (currentEditingFile != null) {
             MessageConsole mc = new MessageConsole(jTextPaneSalida);
             mc.redirectOut();
@@ -304,37 +306,12 @@ public class MainFrame extends javax.swing.JFrame {
             try {
                 BufferedReader br = Files.newBufferedReader(Paths.get(currentEditingFile.getPath()));
                 Lexico lexico = new Lexico(br);
+                parser par = new parser(lexico);
                 try {
-                    JavaSymbol s = lexico.debuguearProximoToken();
-                    while (s.sym != sym.EOF) {
-                        switch(s.sym) {
-                            case sym.IDENTIFIER:
-                                if (!symbolTable.containsKey(s.value.toString())) {
-                                    symbolTable.put(s.value.toString(), new SymbolTableEntry(lexico.getNombreToken(s.sym), null));
-                                };
-                                break;
-                            case sym.STRING_LITERAL:
-                                String string_literal_aux = "_" + s.value.toString();
-                                if (!symbolTable.containsKey(string_literal_aux)) {
-                                    symbolTable.put(string_literal_aux, new SymbolTableEntry(lexico.getNombreToken(s.sym), null, s.value.toString(), s.value.toString().length()));
-                                };
-                                break;
-                            case sym.FLOATING_POINT_LITERAL:
-                            case sym.INTEGER_LITERAL:
-                                String numeric_literal_aux = "_" + s.value.toString();
-                                if (!symbolTable.containsKey(numeric_literal_aux)) {
-                                    symbolTable.put(numeric_literal_aux, new SymbolTableEntry(lexico.getNombreToken(s.sym), null, s.value.toString(), null));
-                                };
-                                break;
-                            default:
-                                // code block
-                        }
-                        s = lexico.debuguearProximoToken();
-                    }
-                    jTextAreaTS.setText(outputSymbolTable());
-                }
-                catch (RuntimeException ex) {
-                    ex.printStackTrace();
+                    Symbol s = par.parse();
+                    jTextAreaTS.setText(outputSymbolTable(par.helper.getSymbolTable()));
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
                 br.close();
             } catch (FileNotFoundException ex) {

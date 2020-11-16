@@ -95,9 +95,9 @@ FLit2    = \. [0-9]+
   "END.PROGRAM"                  { return symbol(ENDPROGRAM); }
   "DECLARE"                      { return symbol(DECLARE); }
   "ENDDECLARE"                   { return symbol(ENDDECLARE); }
-  ([iI][nN][tT])                 { return symbol(INT); }
-  ([fF][lL][oO][aA][tT])         { return symbol(FLOAT); }
-  ([sS][tT][rR][iI][nN][gG])     { return symbol(STRING); }
+  ([iI][nN][tT])                 { return symbol(INT, yytext()); }
+  ([fF][lL][oO][aA][tT])         { return symbol(FLOAT, yytext()); }
+  ([sS][tT][rR][iI][nN][gG])     { return symbol(STRING, yytext()); }
   ([wW][hH][iI][lL][eE])         { return symbol(WHILE); }
   ([iI][fF])                     { return symbol(IF); }
   ([eE][lL][sS][eE])             { return symbol(ELSE); }

@@ -36,7 +36,6 @@ public class Main {
             BufferedReader br = Files.newBufferedReader(PRUEBA_PATH);
             Lexico lexico = new Lexico(br);
             parser par = new parser(lexico);
-
             try {
                 Symbol s = par.parse();
                 outputSymbolTable(par.helper.getSymbolTable());
@@ -44,38 +43,6 @@ public class Main {
             catch (Exception e){
                 e.printStackTrace();
             }
-/*
-            try {
-                JavaSymbol s = lexico.debuguearProximoToken();
-                while (s.sym != sym.EOF) {
-                    switch(s.sym) {
-                        case sym.IDENTIFIER:
-                            if (!symbolTable.containsKey(s.value.toString())) {
-                                symbolTable.put(s.value.toString(), new SymbolTableEntry(lexico.getNombreToken(s.sym), null));
-                            };
-                            break;
-                        case sym.STRING_LITERAL:
-                            String string_literal_aux = "_" + s.value.toString();
-                            if (!symbolTable.containsKey(string_literal_aux)) {
-                                symbolTable.put(string_literal_aux, new SymbolTableEntry(lexico.getNombreToken(s.sym), null, s.value.toString(), s.value.toString().length()));
-                            };
-                            break;
-                        case sym.FLOATING_POINT_LITERAL:
-                        case sym.INTEGER_LITERAL:
-                            String numeric_literal_aux = "_" + s.value.toString();
-                            if (!symbolTable.containsKey(numeric_literal_aux)) {
-                                symbolTable.put(numeric_literal_aux, new SymbolTableEntry(lexico.getNombreToken(s.sym), null, s.value.toString(), null));
-                            };
-                            break;
-                        default:
-                            // code block
-                    }
-                    s = lexico.debuguearProximoToken();
-                }
-            }
-            catch (RuntimeException ex) {
-                ex.printStackTrace();
-            }*/
         }
         catch (IOException ex) {
             System.err.println("No se pudo abrir el archivo de prueba " + PRUEBA_PATH.toString() + ".");
