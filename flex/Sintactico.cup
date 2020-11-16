@@ -135,24 +135,24 @@ conjunto_variables ::=
         System.out.println("[conjunto_variables02] Única definición");
     :};
 
-definicion_variables ::= LBRACK inner_def_var RBRACK {:
+definicion_variables ::= LBRACK inner_def_var:inner RBRACK {:
         loadVarsAndTypes();
         //BORRAME:
         //Acá habría que pedirle al helper las variables y los tipos de datos en orden para poder mostrarlos.
-        System.out.println("[definicion_variables01] ");
+        System.out.println("[definicion_variables01] LBRACK " + inner + " RBRACK");
     :};
 
 inner_def_var ::=
     IDENTIFIER:id RBRACK VARASSIGN LBRACK tipo_de_dato:tipo {:
         System.out.println("[inner_def_var01] ");
         varDef(id);
-        //RESULT = id + tipo;
+        RESULT = id + " RBRACK VARASSIGN LBRACK " + tipo;
     :};
 inner_def_var ::=
-    IDENTIFIER:id COMMA inner_def_var COMMA tipo_de_dato:tipo {:
+    IDENTIFIER:id COMMA inner_def_var:inner COMMA tipo_de_dato:tipo {:
         System.out.println("[inner_def_var02] Definición compuesta");
         varDef(id);
-        //RESULT = id + tipo;
+        RESULT = id + " COMMA " + inner + " COMMA " + tipo;
     :};
 
 
@@ -264,10 +264,12 @@ constante_numerica ::=
     INTEGER_LITERAL:cte_int {:
         addCteInt(cte_int);
         System.out.println("[constante_numerica01] "+cte_int);
+        RESULT = cte_int;
     :}
     | FLOATING_POINT_LITERAL:cte_float {:
         addCteFloat(cte_float);
         System.out.println("[constante_numerica02] "+cte_float);
+        RESULT = cte_float;
     :};
 
 operador_relacional ::= LT | LTEQ | EQEQ | NOTEQ | GTEQ | GT;
@@ -343,7 +345,7 @@ constante_string ::=
 
 funcion_print ::=
     PRINT constante_string:cadena {:
-        System.out.println("[funcion_print01] PRINT"+cadena);
+        System.out.println("[funcion_print01] PRINT "+cadena);
     :};
 
 funcion_between ::=
