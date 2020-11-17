@@ -259,8 +259,8 @@ factor ::=
         RESULT = num;
     :}
     | LPAREN expresion:ex RPAREN {:
-        System.out.println("[factor03] Factor: "+ex);
-        RESULT = ex;
+        System.out.println("[factor03] Factor: LPAREN "+ex+" RPAREN");
+        RESULT = "LPAREN " + ex + " RPAREN";
     :};
 
 constante_numerica ::=
@@ -318,44 +318,42 @@ condicional_else ::=
 
 
 condicion ::=
-    expresion_booleana:expr {:
-        System.out.println("[condicion01] "+expr);
-        RESULT = expr;
+    LPAREN expresion_booleana:expr RPAREN {:
+        System.out.println("[condicion01] LPAREN "+expr+" RPAREN");
+        RESULT = "LPAREN " + expr + " RPAREN";
     :}
     | funcion_between:bet {:
         System.out.println("[condicion02] "+bet);
         RESULT = bet;
     :};
 
-expresion_booleana ::=
-    expresion_booleana:exb OR termino_booleano:t {:
-        System.out.println("[expresion_booleana01] Expresión: "+exb+" OR "+t);
-        RESULT = exb+" OR "+t;
-    :}
-    | termino_booleano:t {:
-        System.out.println("[expresion_booleana02] Expresión: "+t);
-        RESULT = t;
-    :};
-expresion_booleana ::=
-    expresion_booleana:exb AND termino_booleano:t {:
-        System.out.println("[expresion_booleana03] Expresión: "+exb+" AND "+t);
-        RESULT = exb+" AND "+t;
-    :};
+expresion_booleana ::= LPAREN termino_booleano:t1 RPAREN OR LPAREN termino_booleano RPAREN:t2 {:
+                           System.out.println("[expresion_booleana01] Expresión: LPAREN "+t1+" OR "+t2+" RPAREN");
+                           RESULT = "LPAREN "+t1+" OR "+t2+" RPAREN";
+                       :}
+                        | LPAREN termino_booleano:t1 RPAREN AND LPAREN termino_booleano:t2 RPAREN {:
+                           System.out.println("[expresion_booleana02] Expresión: LPAREN "+t1+" AND "+t2+" RPAREN");
+                           RESULT = "LPAREN "+t1+" AND "+t2+" RPAREN";
+                       :}
+                        | termino_booleano:t {:
+                           System.out.println("[expresion_booleana03] Expresión: "+t);
+                           RESULT = t;
+                        :} ;
 
-termino_booleano ::=
-    LPAREN expresion_booleana:exb RPAREN {:
-        System.out.println("[termino_booleano01] Término booleano: LPAREN "+exb+" RPAREN");
-        RESULT = "LPAREN "+exb+" RPAREN";
-    :}
-    | LPAREN expresion:e1 operador_relacional:opr expresion:e2 RPAREN {:
-        System.out.println("[termino_booleano02] Término booleano: LPAREN "+e1+" "+opr+" "+e2+" RPAREN");
-        RESULT = "LPAREN "+e1+" "+opr+" "+e2+" RPAREN";
-    :};
-termino_booleano ::=
-    NOT termino_booleano:t {:
-        System.out.println("[termino_booleano03] Término booleano: NOT "+t);
-        RESULT = "NOT "+t;
-    :};
+termino_booleano ::= NOT LPAREN factor_booleano:f RPAREN {:
+                       System.out.println("[termino_booleano01] Término booleano: NOT "+f);
+                       RESULT = "NOT "+f;
+                   :}
+                        | factor_booleano:f {:
+                        System.out.println("[termino_booleano02] Término booleano: "+f);
+                        RESULT = f;
+                   :};
+
+factor_booleano ::= expresion:e1 operador_relacional:op expresion:e2 {:
+                        System.out.println("[factor_booleano01] Factor booleano: " + e1 + " " + op + " " + e2);
+                        RESULT = ""+e1+" "+op+" "+e2;
+                    :};
+
 
 constante_string ::=
     STRING_LITERAL:cte_string {:
@@ -370,13 +368,28 @@ funcion_print ::=
         RESULT = "PRINT \""+cadena+"\"";
     :};
 
-funcion_between ::=
-    BETWEEN LPAREN parametros_between:param RPAREN {:
+funcion_between ::= BETWEEN
+    LPAREN parametros_between:param RPAREN {:
         System.out.println("[funcion_between01] BETWEEN LPAREN "+param+" RPAREN");
         RESULT = "BETWEEN LPAREN "+param+" RPAREN";
     :};
+
 parametros_between ::=
     IDENTIFIER:var COMMA LBRACK INTEGER_LITERAL:inf SEMICOLON INTEGER_LITERAL:sup RBRACK {:
         System.out.println("[parametros_between01] "+inf+", "+sup);
         RESULT = var+" COMMA LBRACK "+inf+" SEMICOLON "+sup+" RBRACK";
-    :};
+    :}
+    | IDENTIFIER:var COMMA LBRACK FLOATING_POINT_LITERAL:inf SEMICOLON INTEGER_LITERAL:sup RBRACK {:
+        System.out.println("[parametros_between02] "+inf+", "+sup);
+        RESULT = var+" COMMA LBRACK "+inf+" SEMICOLON "+sup+" RBRACK";
+    :}
+    | IDENTIFIER:var COMMA LBRACK FLOATING_POINT_LITERAL:inf SEMICOLON FLOATING_POINT_LITERAL:sup RBRACK {:
+            System.out.println("[parametros_between03] "+inf+", "+sup);
+            RESULT = var+" COMMA LBRACK "+inf+" SEMICOLON "+sup+" RBRACK";
+    :}
+    | IDENTIFIER:var COMMA LBRACK INTEGER_LITERAL:inf SEMICOLON FLOATING_POINT_LITERAL:sup RBRACK {:
+            System.out.println("[parametros_between04] "+inf+", "+sup);
+            RESULT = var+" COMMA LBRACK "+inf+" SEMICOLON "+sup+" RBRACK";
+    :}
+
+    ;
