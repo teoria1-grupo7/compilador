@@ -297,28 +297,32 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonAbrirActionPerformed
 
     private void jButtonCompilarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCompilarActionPerformed
-        saveChanges();
-        if (currentEditingFile != null) {
-            MessageConsole mc = new MessageConsole(jTextPaneSalida);
-            mc.redirectOut();
-            mc.redirectErr(Color.RED, null);
-            mc.setMessageLines(500);
+        jTextPaneSalida.setText("");
+        MessageConsole mc = new MessageConsole(jTextPaneSalida);
+        mc.redirectOut();
+        mc.redirectErr(Color.RED, null);
+        mc.setMessageLines(10000);
+        Reader reader;
+        try {
+            if (currentEditingFile != null) {
+                saveChanges();
+                reader = Files.newBufferedReader(Paths.get(currentEditingFile.getPath()));
+            } else {
+                reader = new StringReader(display.getText());
+            }
+            Lexico lexico = new Lexico(reader);
+            parser par = new parser(lexico);
             try {
-                BufferedReader br = Files.newBufferedReader(Paths.get(currentEditingFile.getPath()));
-                Lexico lexico = new Lexico(br);
-                parser par = new parser(lexico);
-                try {
-                    Symbol s = par.parse();
-                    jTextAreaTS.setText(outputSymbolTable(par.helper.getSymbolTable()));
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                br.close();
-            } catch (FileNotFoundException ex) {
-                Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IOException e) {
+                Symbol s = par.parse();
+                jTextAreaTS.setText(outputSymbolTable(par.helper.getSymbolTable()));
+            } catch (Exception e) {
                 e.printStackTrace();
             }
+            reader.close();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }//GEN-LAST:event_jButtonCompilarActionPerformed
 

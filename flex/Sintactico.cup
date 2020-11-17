@@ -13,7 +13,7 @@ parser code {:
     if (info instanceof java_cup.runtime.Symbol)
       m.append("("+info.toString()+")");
 
-    m.append(" : " + message);
+    m.append(" : "+message);
 
     System.out.println(m);
   }
@@ -129,30 +129,28 @@ seccion_definicion_variables ::=
 
 conjunto_variables ::=
     conjunto_variables definicion_variables {:
-        System.out.println("[conjunto_variables01] Múltiples definiciones");
+        System.out.println("[conjunto_variables01] ");
     :}
     | definicion_variables {:
-        System.out.println("[conjunto_variables02] Única definición");
+        System.out.println("[conjunto_variables02] ");
     :};
 
 definicion_variables ::= LBRACK inner_def_var:inner RBRACK {:
         loadVarsAndTypes();
-        //BORRAME:
-        //Acá habría que pedirle al helper las variables y los tipos de datos en orden para poder mostrarlos.
-        System.out.println("[definicion_variables01] LBRACK " + inner + " RBRACK");
+        System.out.println("[definicion_variables01] LBRACK "+inner+" RBRACK");
     :};
 
 inner_def_var ::=
     IDENTIFIER:id RBRACK VARASSIGN LBRACK tipo_de_dato:tipo {:
-        System.out.println("[inner_def_var01] ");
+        System.out.println("[inner_def_var01] Variable: "+id);
         varDef(id);
-        RESULT = id + " RBRACK VARASSIGN LBRACK " + tipo;
+        RESULT = id+" RBRACK VARASSIGN LBRACK "+tipo;
     :};
 inner_def_var ::=
     IDENTIFIER:id COMMA inner_def_var:inner COMMA tipo_de_dato:tipo {:
-        System.out.println("[inner_def_var02] Definición compuesta");
+        System.out.println("[inner_def_var02] Variable: "+id);
         varDef(id);
-        RESULT = id + " COMMA " + inner + " COMMA " + tipo;
+        RESULT = id+" COMMA "+inner+" COMMA "+tipo;
     :};
 
 
@@ -163,197 +161,222 @@ seccion_programa ::=
 
 bloque_sentencias ::=
     bloque_sentencias sentencia {:
-        System.out.println("[bloque_sentencias01] Múltiples sentencias");
+        System.out.println("[bloque_sentencias01] ");
     :}
     | sentencia {:
-        System.out.println("[bloque_sentencias02] Única sentencia");
+        System.out.println("[bloque_sentencias02] ");
     :};
 
 tipo_de_dato ::=
     INT:entero {:
         parser.helper.typeDef(sym.INT);
-        System.out.println("[tipo_de_dato01] "+entero);
+        System.out.println("[tipo_de_dato01] Tipo: "+entero);
         RESULT = entero;
         :}
     | FLOAT:real {:
         parser.helper.typeDef(sym.FLOAT);
-        System.out.println("[tipo_de_dato02] "+real);
+        System.out.println("[tipo_de_dato02] Tipo: "+real);
         RESULT = real;
     :}
     | STRING:cadena {:
         parser.helper.typeDef(sym.STRING);
-        System.out.println("[tipo_de_dato03] "+cadena);
+        System.out.println("[tipo_de_dato03] Tipo: "+cadena);
         RESULT = cadena;
     :};
 
 
 sentencia ::=
-    sentencia_simple {:
-        System.out.println("[sentencia01] Sentencia simple");
+    sentencia_simple:ss {:
+        System.out.println("[sentencia01] Sentencia simple ("+ss+")");
     :}
     | estructura {:
-        System.out.println("[sentencia02] Bloque de sentencias");
+        System.out.println("[sentencia02] Bloque de sentencias ");
     :};
 
 sentencia_simple ::=
-    elemento_sentencia_simple {:
+    elemento_sentencia_simple:ess {:
         System.out.println("[sentencia_simple01] ");
+        RESULT = ess;
     :};
 
 elemento_sentencia_simple ::=
-    asignacion {:
-        System.out.println("[elemento_sentencia_simple01] Asignación");
+    asignacion:assign {:
+        System.out.println("[elemento_sentencia_simple01] "+assign);
+        RESULT = assign;
     :}
-    | funcion_print {:
-        System.out.println("[elemento_sentencia_simple02] Función PRINT");
+    | funcion_print:print {:
+        System.out.println("[elemento_sentencia_simple02] "+print);
+        RESULT = print;
     :};
 
 asignacion ::=
     IDENTIFIER:id ASSIGN expresion:ex {:
-        System.out.println("[asignacion01] Asigna expresión "+id+" <- "+ex);
+        System.out.println("[asignacion01] Asignación: "+id+" ASSIGN "+ex);
+        RESULT = id+" ASSIGN "+ex;
     :}
     | IDENTIFIER:id ASSIGN constante_string:cte_string {:
-        System.out.println("[asignacion02] Asigna string "+id+" <- \""+cte_string+"\"");
+        System.out.println("[asignacion02] Asignación: "+id+" ASSIGN \""+cte_string+"\"");
+        RESULT = id+" ASSIGN \""+cte_string+"\"";
     :};
 
 expresion ::=
     expresion:ex PLUS termino:t {:
-        System.out.println("[expresion01] ");
-        RESULT = ex+"+"+t;
+        System.out.println("[expresion01] Expresión: "+ex+" PLUS "+t);
+        RESULT = ex+" PLUS "+t;
     :}
     | termino:t {:
-        System.out.println("[expresion02] ");
+        System.out.println("[expresion02] Expresión: "+t);
         RESULT = t;
     :};
 expresion ::=
     expresion:ex MINUS termino:t {:
-        System.out.println("[expresion03] ");
-        RESULT = ex+"-"+t;
+        System.out.println("[expresion03] Expresión: "+ex+" MINUS "+t);
+        RESULT = ex+" MINUS "+t;
     :};
 
 termino ::=
     termino:t MULT factor:f {:
-        System.out.println("[termino01] ");
-        RESULT = t+"*"+f;
+        System.out.println("[termino01] Término: "+t+" MULT "+f);
+        RESULT = t+" MULT "+f;
     :}
     | factor:f {:
-        System.out.println("[termino02] ");
+        System.out.println("[termino02] Término: "+f);
         RESULT = f;
     :};
 termino ::=
     termino:t DIV factor:f {:
-        System.out.println("[termino03] ");
-        RESULT = t+"/"+f;
+        System.out.println("[termino03] Término: "+t+" DIV "+f);
+        RESULT = t+" DIV "+f;
     :};
 
 factor ::=
     IDENTIFIER:id {:
-        System.out.println("[factor01] ");
+        System.out.println("[factor01] Factor: identificador "+id);
         RESULT = id;
     :}
     | constante_numerica:num {:
-        System.out.println("[factor02] ");
+        System.out.println("[factor02] Factor: "+num);
         RESULT = num;
     :}
     | LPAREN expresion:ex RPAREN {:
-        System.out.println("[factor03] ");
+        System.out.println("[factor03] Factor: "+ex);
         RESULT = ex;
     :};
 
 constante_numerica ::=
     INTEGER_LITERAL:cte_int {:
         addCteInt(cte_int);
-        System.out.println("[constante_numerica01] "+cte_int);
+        System.out.println("[constante_numerica01] Número entero: "+cte_int);
         RESULT = cte_int;
     :}
     | FLOATING_POINT_LITERAL:cte_float {:
         addCteFloat(cte_float);
-        System.out.println("[constante_numerica02] "+cte_float);
+        System.out.println("[constante_numerica02] Número real: "+cte_float);
         RESULT = cte_float;
     :};
 
-operador_relacional ::= LT | LTEQ | EQEQ | NOTEQ | GTEQ | GT;
+operador_relacional ::=
+    LT:lt {: RESULT = lt; :}
+    | LTEQ:lteq {: RESULT = lteq; :}
+    | EQEQ:eqeq {: RESULT = eqeq; :}
+    | NOTEQ:noteq {: RESULT = noteq; :}
+    | GTEQ:gteq {: RESULT = gteq; :}
+    | GT:gt {: RESULT = gt; :};
 
 
 estructura ::=
-    ciclo_while {:
-        System.out.println("[estructura01] ");
+    ciclo_while:mientras {:
+        System.out.println("[estructura01] "+mientras);
     :}
-    | condicional_if {:
-        System.out.println("[estructura02] ");
+    | condicional_if:condif {:
+        System.out.println("[estructura02] "+condif);
     :};
 
 
 ciclo_while ::=
-    WHILE condicion LBRACE bloque_sentencias RBRACE {:
-        System.out.println("[ciclo_while01] ");
+    WHILE condicion:con LBRACE bloque_sentencias RBRACE {:
+        System.out.println("[ciclo_while01] WHILE "+con+" LBRACE <bloque_sentencias> RBRACE");
+        RESULT = "WHILE "+con+" LBRACE <bloque_sentencias> RBRACE";
     :};
 
 
 condicional_if ::=
-    IF condicion LBRACE bloque_sentencias RBRACE {:
-        System.out.println("[condicional_if01] ");
+    IF condicion:con LBRACE bloque_sentencias RBRACE {:
+        System.out.println("[condicional_if01] IF "+con+" LBRACE <bloque_sentencias> RBRACE");
+        RESULT = "IF "+con+" LBRACE <bloque_sentencias> RBRACE";
     :};
 condicional_if ::=
-    IF condicion LBRACE bloque_sentencias RBRACE condicional_else {:
-        System.out.println("[condicional_if02] ");
+    IF condicion:con LBRACE bloque_sentencias RBRACE condicional_else:celse {:
+        System.out.println("[condicional_if02] IF "+con+" LBRACE <bloque_sentencias> RBRACE "+celse);
+        RESULT = "IF "+con+" LBRACE <bloque_sentencias> RBRACE "+celse;
     :};
 condicional_else ::=
     ELSE LBRACE bloque_sentencias RBRACE {:
-        System.out.println("[condicional_if03] ");
+        System.out.println("[condicional_if03] ELSE LBRACE <bloque_sentencias> RBRACE");
+        RESULT = "ELSE LBRACE <bloque_sentencias> RBRACE";
     :};
 
 
 condicion ::=
     expresion_booleana:expr {:
-        System.out.println("[condicion01] ");
+        System.out.println("[condicion01] "+expr);
+        RESULT = expr;
     :}
-    | funcion_between {:
-        System.out.println("[condicion02] ");
+    | funcion_between:bet {:
+        System.out.println("[condicion02] "+bet);
+        RESULT = bet;
     :};
 
 expresion_booleana ::=
-    expresion_booleana OR termino_booleano {:
-        System.out.println("[expresion_booleana01] ");
+    expresion_booleana:exb OR termino_booleano:t {:
+        System.out.println("[expresion_booleana01] Expresión: "+exb+" OR "+t);
+        RESULT = exb+" OR "+t;
     :}
-    | termino_booleano {:
-        System.out.println("[expresion_booleana02] ");
+    | termino_booleano:t {:
+        System.out.println("[expresion_booleana02] Expresión: "+t);
+        RESULT = t;
     :};
 expresion_booleana ::=
-    expresion_booleana AND termino_booleano {:
-        System.out.println("[expresion_booleana03] ");
+    expresion_booleana:exb AND termino_booleano:t {:
+        System.out.println("[expresion_booleana03] Expresión: "+exb+" AND "+t);
+        RESULT = exb+" AND "+t;
     :};
 
 termino_booleano ::=
-    LPAREN expresion_booleana RPAREN {:
-        System.out.println("[termino_booleano01] ");
+    LPAREN expresion_booleana:exb RPAREN {:
+        System.out.println("[termino_booleano01] Término booleano: LPAREN "+exb+" RPAREN");
+        RESULT = "LPAREN "+exb+" RPAREN";
     :}
-    | LPAREN expresion operador_relacional expresion RPAREN {:
-        System.out.println("[termino_booleano02] ");
+    | LPAREN expresion:e1 operador_relacional:opr expresion:e2 RPAREN {:
+        System.out.println("[termino_booleano02] Término booleano: LPAREN "+e1+" "+opr+" "+e2+" RPAREN");
+        RESULT = "LPAREN "+e1+" "+opr+" "+e2+" RPAREN";
     :};
 termino_booleano ::=
-    NOT termino_booleano {:
-        System.out.println("[termino_booleano03] ");
+    NOT termino_booleano:t {:
+        System.out.println("[termino_booleano03] Término booleano: NOT "+t);
+        RESULT = "NOT "+t;
     :};
 
 constante_string ::=
     STRING_LITERAL:cte_string {:
         addCteString(cte_string);
-        System.out.println("[constante_string01] "+cte_string);
+        System.out.println("[constante_string01] \""+cte_string+"\"");
         RESULT = cte_string;
     :};
 
 funcion_print ::=
     PRINT constante_string:cadena {:
-        System.out.println("[funcion_print01] PRINT "+cadena);
+        System.out.println("[funcion_print01] PRINT \""+cadena+"\"");
+        RESULT = "PRINT \""+cadena+"\"";
     :};
 
 funcion_between ::=
     BETWEEN LPAREN parametros_between:param RPAREN {:
-        System.out.println("[funcion_between01] BETWEEN con variable "+param);
+        System.out.println("[funcion_between01] BETWEEN LPAREN "+param+" RPAREN");
+        RESULT = "BETWEEN LPAREN "+param+" RPAREN";
     :};
 parametros_between ::=
     IDENTIFIER:var COMMA LBRACK INTEGER_LITERAL:inf SEMICOLON INTEGER_LITERAL:sup RBRACK {:
         System.out.println("[parametros_between01] "+inf+", "+sup);
-        RESULT = "\"" + var + "\" entre " + inf + " y " + sup;
+        RESULT = var+" COMMA LBRACK "+inf+" SEMICOLON "+sup+" RBRACK";
     :};

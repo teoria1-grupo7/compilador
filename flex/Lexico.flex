@@ -115,12 +115,12 @@ FLit2    = \. [0-9]+
   /* OPERADORES */
   ([aA][nN][dD])                 { return symbol(AND); }
   ([oO][rR])                     { return symbol(OR); }
-  "<"                            { return symbol(LT); }
-  "<="                           { return symbol(LTEQ); }
-  "=="                           { return symbol(EQEQ); }
-  "<>"                           { return symbol(NOTEQ); }
-  ">="                           { return symbol(GTEQ); }
-  ">"                            { return symbol(GT); }
+  "<"                            { return symbol(LT, yytext()); }
+  "<="                           { return symbol(LTEQ, yytext()); }
+  "=="                           { return symbol(EQEQ, yytext()); }
+  "<>"                           { return symbol(NOTEQ, yytext()); }
+  ">="                           { return symbol(GTEQ, yytext()); }
+  ">"                            { return symbol(GT, yytext()); }
   "!"                            { return symbol(NOT); }
   ":="                           { return symbol(VARASSIGN); }
   "="                            { return symbol(ASSIGN); }
