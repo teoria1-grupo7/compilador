@@ -375,21 +375,7 @@ funcion_between ::= BETWEEN
     :};
 
 parametros_between ::=
-    IDENTIFIER:var COMMA LBRACK INTEGER_LITERAL:inf SEMICOLON INTEGER_LITERAL:sup RBRACK {:
+    IDENTIFIER:var COMMA LBRACK constante_numerica:inf SEMICOLON constante_numerica:sup RBRACK {:
         System.out.println("[parametros_between01] "+inf+", "+sup);
         RESULT = var+" COMMA LBRACK "+inf+" SEMICOLON "+sup+" RBRACK";
-    :}
-    | IDENTIFIER:var COMMA LBRACK FLOATING_POINT_LITERAL:inf SEMICOLON INTEGER_LITERAL:sup RBRACK {:
-        System.out.println("[parametros_between02] "+inf+", "+sup);
-        RESULT = var+" COMMA LBRACK "+inf+" SEMICOLON "+sup+" RBRACK";
-    :}
-    | IDENTIFIER:var COMMA LBRACK FLOATING_POINT_LITERAL:inf SEMICOLON FLOATING_POINT_LITERAL:sup RBRACK {:
-            System.out.println("[parametros_between03] "+inf+", "+sup);
-            RESULT = var+" COMMA LBRACK "+inf+" SEMICOLON "+sup+" RBRACK";
-    :}
-    | IDENTIFIER:var COMMA LBRACK INTEGER_LITERAL:inf SEMICOLON FLOATING_POINT_LITERAL:sup RBRACK {:
-            System.out.println("[parametros_between04] "+inf+", "+sup);
-            RESULT = var+" COMMA LBRACK "+inf+" SEMICOLON "+sup+" RBRACK";
-    :}
-
-    ;
+    :};
