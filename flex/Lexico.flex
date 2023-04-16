@@ -13,7 +13,7 @@ import java_cup.runtime.*;
 %cupdebug
 
 %{
-  final int MAX_STRING = 30;
+  final int MAX_STRING = 100;
   final int MAX_INT = Short.MAX_VALUE;
   final float MAX_FLOAT = Float.MAX_VALUE;
 
