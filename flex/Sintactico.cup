@@ -2,6 +2,10 @@ package compilador;
 import java_cup.runtime.Symbol;
 import compilador.SymbolTableEntry;
 import helper.ParserHelper;
+import ast.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 parser code {:
 
@@ -26,6 +30,8 @@ parser code {:
 
 
 action code {:
+
+    public List<NodoSentencia> a ;
 
     public void varDef(String id) {
         parser.helper.varDef(id);
@@ -114,11 +120,13 @@ non terminal
 start with codigo_fuente;
 
 codigo_fuente ::=
-    seccion_definicion_variables seccion_programa {:
+    seccion_definicion_variables seccion_programa:pgm {:
         System.out.println("[codigo_fuente01] Compilación exitosa de programa con variables");
+        RESULT = pgm;
     :}
-    | seccion_programa {:
+    | seccion_programa:pgm {:
         System.out.println("[codigo_fuente02] Compilación exitosa de programa simple");
+        RESULT = pgm;
     :};
 
 
@@ -155,16 +163,23 @@ inner_def_var ::=
 
 
 seccion_programa ::=
-    BEGINPROGRAM bloque_sentencias ENDPROGRAM{:
+    BEGINPROGRAM bloque_sentencias:ss ENDPROGRAM{:
         System.out.println("[seccion_programa01] Fin del código del programa");
+        RESULT = new NodoPrograma((List<NodoSentencia>) ss);
+
     :};
 
 bloque_sentencias ::=
-    bloque_sentencias sentencia {:
+    bloque_sentencias:ss sentencia:s {:
         System.out.println("[bloque_sentencias01] ");
+        ((List<NodoSentencia>)ss).add((NodoSentencia)s);
+        RESULT = ss;
     :}
-    | sentencia {:
+    | sentencia:s {:
         System.out.println("[bloque_sentencias02] ");
+        a = new ArrayList<>();
+        a.add((NodoSentencia) s);
+        RESULT = a;
     :};
 
 tipo_de_dato ::=
@@ -188,9 +203,11 @@ tipo_de_dato ::=
 sentencia ::=
     sentencia_simple:ss {:
         System.out.println("[sentencia01] Sentencia simple ("+ss+")");
+        RESULT = ss;
     :}
-    | estructura {:
+    | estructura:e {:
         System.out.println("[sentencia02] Bloque de sentencias ");
+        RESULT = e;
     :};
 
 sentencia_simple ::=
@@ -212,32 +229,38 @@ elemento_sentencia_simple ::=
 asignacion ::=
     IDENTIFIER:id ASSIGN expresion:ex {:
         System.out.println("[asignacion01] Asignación: "+id+" ASSIGN "+ex);
-        RESULT = id+" ASSIGN "+ex;
+        //RESULT = id+" ASSIGN "+ex;
+        RESULT = new NodoAsignacion(new NodoIdentificador(id), (NodoExpresion) ex);
     :}
     | IDENTIFIER:id ASSIGN constante_string:cte_string {:
         System.out.println("[asignacion02] Asignación: "+id+" ASSIGN \""+cte_string+"\"");
-        RESULT = id+" ASSIGN \""+cte_string+"\"";
+        //RESULT = id+" ASSIGN \""+cte_string+"\"";
+        RESULT = new NodoAsignacion(new NodoIdentificador(id), (NodoExpresion) cte_string);
     :};
 
 expresion ::=
     expresion:ex PLUS termino:t {:
         System.out.println("[expresion01] Expresión: "+ex+" PLUS "+t);
-        RESULT = ex+" PLUS "+t;
+        //RESULT = ex+" PLUS "+t;
+        RESULT = new NodoSuma((NodoExpresion) ex, (NodoExpresion) t);
+
     :}
     | termino:t {:
         System.out.println("[expresion02] Expresión: "+t);
-        RESULT = t;
+        RESULT = (NodoExpresion) t;
     :};
 expresion ::=
     expresion:ex MINUS termino:t {:
         System.out.println("[expresion03] Expresión: "+ex+" MINUS "+t);
-        RESULT = ex+" MINUS "+t;
+        //RESULT = ex+" MINUS "+t;
+        RESULT = new NodoResta((NodoExpresion) ex, (NodoExpresion) t);
     :};
 
 termino ::=
     termino:t MULT factor:f {:
         System.out.println("[termino01] Término: "+t+" MULT "+f);
-        RESULT = t+" MULT "+f;
+        //RESULT = t+" MULT "+f;
+        RESULT = new NodoMultiplicacion((NodoExpresion) t, (NodoExpresion) f);
     :}
     | factor:f {:
         System.out.println("[termino02] Término: "+f);
@@ -246,13 +269,14 @@ termino ::=
 termino ::=
     termino:t DIV factor:f {:
         System.out.println("[termino03] Término: "+t+" DIV "+f);
-        RESULT = t+" DIV "+f;
+        //RESULT = t+" DIV "+f;
+        RESULT = new NodoDivision((NodoExpresion) t, (NodoExpresion) f);
     :};
 
 factor ::=
     IDENTIFIER:id {:
         System.out.println("[factor01] Factor: identificador "+id);
-        RESULT = id;
+        RESULT = new NodoIdentificador(id);
     :}
     | constante_numerica:num {:
         System.out.println("[factor02] Factor: "+num);
@@ -260,19 +284,22 @@ factor ::=
     :}
     | LPAREN expresion:ex RPAREN {:
         System.out.println("[factor03] Factor: LPAREN "+ex+" RPAREN");
-        RESULT = "LPAREN " + ex + " RPAREN";
+        //RESULT = "LPAREN " + ex + " RPAREN";
+        RESULT = (NodoExpresion) ex;
     :};
 
 constante_numerica ::=
     INTEGER_LITERAL:cte_int {:
         addCteInt(cte_int);
         System.out.println("[constante_numerica01] Número entero: "+cte_int);
-        RESULT = cte_int;
+        //RESULT = cte_int;
+        RESULT = new NodoConstanteInt(cte_int);
     :}
     | FLOATING_POINT_LITERAL:cte_float {:
         addCteFloat(cte_float);
         System.out.println("[constante_numerica02] Número real: "+cte_float);
-        RESULT = cte_float;
+        //RESULT = cte_float;
+        RESULT = new NodoConstanteFloat(cte_float);
     :};
 
 operador_relacional ::=
@@ -287,71 +314,82 @@ operador_relacional ::=
 estructura ::=
     ciclo_while:mientras {:
         System.out.println("[estructura01] "+mientras);
+        RESULT = mientras;
     :}
     | condicional_if:condif {:
         System.out.println("[estructura02] "+condif);
+        RESULT = condif;
     :};
 
 
 ciclo_while ::=
-    WHILE condicion:con LBRACE bloque_sentencias RBRACE {:
+    WHILE condicion:con LBRACE bloque_sentencias:ss RBRACE {:
         System.out.println("[ciclo_while01] WHILE "+con+" LBRACE <bloque_sentencias> RBRACE");
-        RESULT = "WHILE "+con+" LBRACE <bloque_sentencias> RBRACE";
+        //RESULT = "WHILE "+con+" LBRACE <bloque_sentencias> RBRACE";
+        RESULT = new NodoCiclo((NodoExpresionBooleana) con, (List<NodoSentencia>) ss);
     :};
 
 
 condicional_if ::=
-    IF condicion:con LBRACE bloque_sentencias RBRACE {:
+    IF condicion:con LBRACE bloque_sentencias:ss RBRACE {:
         System.out.println("[condicional_if01] IF "+con+" LBRACE <bloque_sentencias> RBRACE");
-        RESULT = "IF "+con+" LBRACE <bloque_sentencias> RBRACE";
+        //RESULT = "IF "+con+" LBRACE <bloque_sentencias> RBRACE";
+        RESULT = new NodoIf((NodoExpresionBooleana) con, (List<NodoSentencia>) ss, null);
     :};
 condicional_if ::=
-    IF condicion:con LBRACE bloque_sentencias RBRACE condicional_else:celse {:
+    IF condicion:con LBRACE bloque_sentencias:ss RBRACE condicional_else:celse {:
         System.out.println("[condicional_if02] IF "+con+" LBRACE <bloque_sentencias> RBRACE "+celse);
-        RESULT = "IF "+con+" LBRACE <bloque_sentencias> RBRACE "+celse;
+        //RESULT = "IF "+con+" LBRACE <bloque_sentencias> RBRACE "+celse;
+        RESULT = new NodoIf((NodoExpresionBooleana) con, (List<NodoSentencia>) ss, (List<NodoSentencia>) celse);
     :};
 condicional_else ::=
-    ELSE LBRACE bloque_sentencias RBRACE {:
+    ELSE LBRACE bloque_sentencias:ss RBRACE {:
         System.out.println("[condicional_if03] ELSE LBRACE <bloque_sentencias> RBRACE");
-        RESULT = "ELSE LBRACE <bloque_sentencias> RBRACE";
+        //RESULT = "ELSE LBRACE <bloque_sentencias> RBRACE";
+        RESULT = ss;
     :};
 
 
 condicion ::=
     LPAREN expresion_booleana:expr RPAREN {:
         System.out.println("[condicion01] LPAREN "+expr+" RPAREN");
-        RESULT = "LPAREN " + expr + " RPAREN";
+        //RESULT = "LPAREN " + expr + " RPAREN";
+        RESULT = (NodoExpresionBooleana) expr;
     :}
     | funcion_between:bet {:
         System.out.println("[condicion02] "+bet);
-        RESULT = bet;
+        RESULT = (NodoExpresionBooleana) bet;
     :};
 
 expresion_booleana ::= LPAREN termino_booleano:t1 RPAREN OR LPAREN termino_booleano RPAREN:t2 {:
                            System.out.println("[expresion_booleana01] Expresión: LPAREN "+t1+" OR "+t2+" RPAREN");
-                           RESULT = "LPAREN "+t1+" OR "+t2+" RPAREN";
+                           //RESULT = "LPAREN "+t1+" OR "+t2+" RPAREN";
+                           RESULT = new NodoOr((NodoExpresionBooleana)t1, (NodoExpresionBooleana) t2);
                        :}
                         | LPAREN termino_booleano:t1 RPAREN AND LPAREN termino_booleano:t2 RPAREN {:
                            System.out.println("[expresion_booleana02] Expresión: LPAREN "+t1+" AND "+t2+" RPAREN");
-                           RESULT = "LPAREN "+t1+" AND "+t2+" RPAREN";
+                           //RESULT = "LPAREN "+t1+" AND "+t2+" RPAREN";
+                           RESULT = new NodoAnd((NodoExpresionBooleana) t1, (NodoExpresionBooleana) t2);
                        :}
                         | termino_booleano:t {:
                            System.out.println("[expresion_booleana03] Expresión: "+t);
-                           RESULT = t;
+                           RESULT = (NodoExpresionBooleana) t;
                         :} ;
 
 termino_booleano ::= NOT LPAREN factor_booleano:f RPAREN {:
                        System.out.println("[termino_booleano01] Término booleano: NOT "+f);
-                       RESULT = "NOT "+f;
+                       //RESULT = "NOT "+f;
+                       RESULT = new NodoNot((NodoExpresionBooleana) f);
                    :}
                         | factor_booleano:f {:
                         System.out.println("[termino_booleano02] Término booleano: "+f);
-                        RESULT = f;
+                        RESULT = (NodoExpresionBooleana) f;
                    :};
 
 factor_booleano ::= expresion:e1 operador_relacional:op expresion:e2 {:
                         System.out.println("[factor_booleano01] Factor booleano: " + e1 + " " + op + " " + e2);
-                        RESULT = ""+e1+" "+op+" "+e2;
+                        //RESULT = ""+e1+" "+op+" "+e2;
+                        RESULT = new NodoComparacionFactory().from((String) op, (NodoExpresion) e1, (NodoExpresion) e2);
                     :};
 
 
@@ -359,23 +397,27 @@ constante_string ::=
     STRING_LITERAL:cte_string {:
         addCteString(cte_string);
         System.out.println("[constante_string01] \""+cte_string+"\"");
-        RESULT = cte_string;
+        //RESULT = cte_string;
+        RESULT = new NodoConstanteString(cte_string);
     :};
 
 funcion_print ::=
     PRINT constante_string:cadena {:
         System.out.println("[funcion_print01] PRINT \""+cadena+"\"");
-        RESULT = "PRINT \""+cadena+"\"";
+        //RESULT = "PRINT \""+cadena+"\"";
+        RESULT = new NodoPrint((NodoConstanteString) cadena);
     :};
 
 funcion_between ::= BETWEEN
     LPAREN parametros_between:param RPAREN {:
         System.out.println("[funcion_between01] BETWEEN LPAREN "+param+" RPAREN");
-        RESULT = "BETWEEN LPAREN "+param+" RPAREN";
+        //RESULT = "BETWEEN LPAREN "+param+" RPAREN";
+        RESULT = param;
     :};
 
 parametros_between ::=
     IDENTIFIER:var COMMA LBRACK constante_numerica:inf SEMICOLON constante_numerica:sup RBRACK {:
         System.out.println("[parametros_between01] "+inf+", "+sup);
-        RESULT = var+" COMMA LBRACK "+inf+" SEMICOLON "+sup+" RBRACK";
+        //RESULT = var+" COMMA LBRACK "+inf+" SEMICOLON "+sup+" RBRACK";
+        RESULT = new NodoAnd(new NodoMayorIgual(new NodoIdentificador(var), (NodoExpresion)inf), new NodoMenorIgual(new NodoIdentificador(var), (NodoExpresion)sup));
     :};

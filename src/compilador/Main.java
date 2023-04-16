@@ -1,5 +1,6 @@
 package compilador;
 
+import ast.NodoPrograma;
 import java_cup.runtime.Symbol;
 
 import java.io.*;
@@ -39,6 +40,17 @@ public class Main {
             try {
                 Symbol s = par.parse();
                 outputSymbolTable(par.helper.getSymbolTable());
+                NodoPrograma program = (NodoPrograma) s.value;
+                try {
+                    FileWriter archivo = new FileWriter("arbol.dot");
+                    PrintWriter pw = new PrintWriter(archivo);
+                    pw.println(program.graficar());
+                    archivo.close();
+                } catch (Exception e) {
+                    System.out.println(e);
+                }
+                String cmd = "dot -Tpng arbol.dot -o arbol.png";
+                Runtime.getRuntime().exec(cmd);
             }
             catch (Exception e){
                 e.printStackTrace();
