@@ -1,5 +1,6 @@
 package gui;
 
+import ast.NodoPrograma;
 import compilador.*;
 import java_cup.runtime.Symbol;
 
@@ -16,12 +17,14 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class MainFrame extends javax.swing.JFrame {
     private final static Path TS_PATH = Paths.get("ts.txt");
+    private String dotPath;
 
     public String outputSymbolTable(HashMap<String, SymbolTableEntry> symbolTable) {
         String salida = "";
@@ -57,7 +60,7 @@ public class MainFrame extends javax.swing.JFrame {
         FileNameExtensionFilter filter = new FileNameExtensionFilter("Archivos de texto", "txt", "text");
         fileOpener.setFileFilter(filter);
 
-        //Launch the application on the middle of Screen
+        //Launch the application in the middle of Screen
         this.setLocationRelativeTo(null);
         this.addWindowListener(new WindowAdapter() {
 
@@ -78,6 +81,8 @@ public class MainFrame extends javax.swing.JFrame {
         } catch (IOException ex) {
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
+        //Custom button text
+
     }
 
     public MainFrame(File file) {
@@ -119,6 +124,7 @@ public class MainFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         fileOpener = new javax.swing.JFileChooser();
+        execFileOpener = new javax.swing.JFileChooser();
         saveDialog = new javax.swing.JFileChooser();
 
         jPanel1 = new javax.swing.JPanel();
@@ -262,7 +268,33 @@ public class MainFrame extends javax.swing.JFrame {
         );
 
         pack();
+        setDotExecutablePath();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void setDotExecutablePath() {
+        Object[] options = {"Si",
+            "No"};
+        String message = "<html><p style=\"font-size: 13px; text-align:center;\">"
+            + "¿Desea seleccionar el path al ejecutable de <b>dot</b> en su sistema?</p><br>"
+            + "<p style=\"font-size: 11px; text-align:center;\">En caso de no seleccionarlo, "
+            + "no se construirá la imagen del AST.</p></html>";
+        int option = JOptionPane.showOptionDialog(new Frame(),
+            message,
+            "Path ejecutable de dot",
+            JOptionPane.YES_NO_OPTION,
+            JOptionPane.QUESTION_MESSAGE,
+            null,
+            options,
+            options[1]);
+
+        if (option == JOptionPane.YES_OPTION) {
+            int status = execFileOpener.showOpenDialog(rootPane);
+            if (status == JFileChooser.APPROVE_OPTION) {
+                File selectedFile = execFileOpener.getSelectedFile();
+                this.dotPath = selectedFile.getAbsolutePath();
+            }
+        }
+    }
 
     private void jButtonAbrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAbrirActionPerformed
         //Show File Open dialouge here
@@ -315,6 +347,12 @@ public class MainFrame extends javax.swing.JFrame {
             try {
                 Symbol s = par.parse();
                 jTextAreaTS.setText(outputSymbolTable(par.helper.getSymbolTable()));
+                NodoPrograma program = (NodoPrograma) s.value;
+                FileWriter archivo = new FileWriter("arbol.dot");
+                PrintWriter pw = new PrintWriter(archivo);
+                pw.println(program.graficar());
+                archivo.close();
+                generateAstImage();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -325,6 +363,28 @@ public class MainFrame extends javax.swing.JFrame {
             e.printStackTrace();
         }
     }//GEN-LAST:event_jButtonCompilarActionPerformed
+
+    private void generateAstImage() {
+        if (this.dotPath != null) {
+            String cmd = this.dotPath + " -Tpng arbol.dot -o arbol.png";
+            try {
+                Process exec = Runtime.getRuntime().exec(cmd);
+                exec.waitFor();
+                if (exec.exitValue() == 0) {
+                    JOptionPane.showMessageDialog(new Frame(), "Árbol generado en arbol.png");
+                }
+                else {
+                    JOptionPane.showMessageDialog(rootPane, "No se pudo generar la imagen del árbol.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(rootPane, "No se pudo generar la imagen del árbol.", "Error", JOptionPane.ERROR_MESSAGE);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+
+        }
+    }
 
     private void jButtonAgrandarTextoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAgrandarTextoActionPerformed
         display.setFont(new java.awt.Font("Monospaced", 0, ++fontSize));
@@ -375,6 +435,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JTextPane jTextPaneSalida;
     private javax.swing.JTextArea jTextAreaTS;
     private javax.swing.JFileChooser fileOpener;
+    private javax.swing.JFileChooser execFileOpener;
     private javax.swing.JButton jButtonAbrir;
     private javax.swing.JButton jButtonGuardar;
     private javax.swing.JButton jButtonAgrandarTexto;
