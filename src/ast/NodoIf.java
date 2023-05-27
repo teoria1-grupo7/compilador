@@ -1,6 +1,7 @@
 package ast;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class NodoIf extends NodoSentencia {
     private final NodoExpresionBooleana condicion;
@@ -49,5 +50,26 @@ public class NodoIf extends NodoSentencia {
         }
 
         return resultado.toString();
+    }
+
+    @Override
+    public String assemble(AtomicInteger auxCount) {
+        StringBuilder thenPart = new StringBuilder("then_part:\n");
+        for (NodoSentencia nodoSentencia : sentenciasThen) {
+            thenPart.append(nodoSentencia.assemble(auxCount));
+        }
+        StringBuilder elsePart = new StringBuilder("else_part:\n");
+        if (sentenciasElse != null) {
+            for (NodoSentencia nodoSentencia : sentenciasElse) {
+                elsePart.append(nodoSentencia.assemble(auxCount));
+            }
+        }
+
+        return condicion.assemble(auxCount, Boolean.FALSE, Boolean.FALSE)
+            + "\n" + thenPart
+            + "\njmp end_if"
+            + "\n" + elsePart
+            + "\nend_if:\n";
+
     }
 }

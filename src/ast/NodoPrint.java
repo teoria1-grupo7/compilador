@@ -1,5 +1,7 @@
 package ast;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 public class NodoPrint extends NodoSentencia {
     private final NodoConstanteString valor;
 
@@ -13,5 +15,10 @@ public class NodoPrint extends NodoSentencia {
         final String miId = this.getIdNodo();
         return super.graficar(idPadre) +
             valor.graficar(miId);
+    }
+
+    @Override
+    public String assemble(AtomicInteger auxCount) {
+        return "displayString " + valor.assemble(auxCount);
     }
 }

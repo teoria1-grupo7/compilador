@@ -1,5 +1,7 @@
 package ast;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 public class NodoAsignacion extends NodoSentencia {
     private final NodoIdentificador identificador;
     private final NodoExpresion expresion;
@@ -16,5 +18,11 @@ public class NodoAsignacion extends NodoSentencia {
         return super.graficar(idPadre) +
                 identificador.graficar(miId) +
                 expresion.graficar(miId);
+    }
+
+    @Override
+    public String assemble(AtomicInteger auxCount) {
+        return "fld " + expresion.assemble(auxCount) +
+            "\nfstp " + identificador.assemble(auxCount) + "\n";
     }
 }

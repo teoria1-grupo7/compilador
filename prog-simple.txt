@@ -1,0 +1,11 @@
+DECLARE
+[suma, contador, d1] := [FLOAT, INT, FLOAT]
+ENDDECLARE
+
+
+BEGIN.PROGRAM
+
+z = a + b * c - d / (e + f) + 20.
+
+
+END.PROGRAM

@@ -1,6 +1,7 @@
 package ast;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class NodoCiclo extends NodoSentencia {
     private final NodoExpresionBooleana condicion;
@@ -49,6 +50,19 @@ public class NodoCiclo extends NodoSentencia {
         }
 */
         return resultado.toString();
+    }
+
+    @Override
+    public String assemble(AtomicInteger auxCount) {
+        StringBuilder cuerpo = new StringBuilder();
+        for (NodoSentencia nodoSentencia : this.cuerpo) {
+            cuerpo.append(nodoSentencia.assemble(auxCount));
+        }
+
+        return "inicio_while:\n" + condicion.assemble(auxCount, Boolean.FALSE, Boolean.TRUE) + " end_while"
+            + "\n" + cuerpo + "\njmp inicio_while"
+            + "\nend_while:\n";
+
     }
 }
 

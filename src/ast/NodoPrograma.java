@@ -1,6 +1,7 @@
 package ast;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class NodoPrograma extends Nodo {
     private final List<NodoSentencia> sentencias;
@@ -30,6 +31,17 @@ public class NodoPrograma extends Nodo {
 
         resultado.append("}");
 
+        return resultado.toString();
+    }
+
+    public String assemble() {
+        StringBuilder resultado = new StringBuilder();
+        // Agregar header y tabla de simbolos?
+        AtomicInteger auxCount = new AtomicInteger(0);
+        for (NodoSentencia sentencia : sentencias) {
+            resultado.append(sentencia.assemble(auxCount)).append("\n");
+        }
+        // Agregar footer?
         return resultado.toString();
     }
 }

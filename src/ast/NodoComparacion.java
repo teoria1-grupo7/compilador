@@ -1,7 +1,9 @@
 package ast;
 
 
-public class NodoComparacion extends NodoExpresionBooleana {
+import java.util.concurrent.atomic.AtomicInteger;
+
+public abstract class NodoComparacion extends NodoExpresionBooleana {
 private final NodoExpresion  izquierda;
 private final NodoExpresion  derecha;
 
@@ -9,7 +11,13 @@ private final NodoExpresion  derecha;
         super(nombre);
         this.izquierda = izquierda;
         this.derecha = derecha;
+    }
 
+    public NodoExpresion getIzquierda() {
+        return izquierda;
+    }
+    public NodoExpresion getDerecha() {
+        return derecha;
     }
 
      @Override
@@ -19,5 +27,7 @@ private final NodoExpresion  derecha;
                 izquierda.graficar(miId) +
                 derecha.graficar(miId);
     }
-    
+
+    @Override
+    protected abstract String assemble(AtomicInteger auxCount, Boolean doubleComp, Boolean inverse);
 }
