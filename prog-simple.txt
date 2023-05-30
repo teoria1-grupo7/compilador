@@ -1,11 +1,13 @@
-DECLARE
-[suma, contador, d1] := [FLOAT, INT, FLOAT]
-ENDDECLARE
-
-
 BEGIN.PROGRAM
 
-z = a + b * c - d / (e + f) + 20.
+z = a + b * c - d
 
+If (actual > 2) {
+	palabra = "es mayor"
+}
+
+while ((contador <= 92) or (actual > 30)) {
+	contador = contador + 1
+}
 
 END.PROGRAM

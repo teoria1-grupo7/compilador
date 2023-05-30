@@ -29,5 +29,5 @@ public abstract class NodoExpresionBinaria extends NodoExpresion {
     }
 
     @Override
-    public abstract String assemble(AtomicInteger auxCount);
+    public abstract String assemble(StringBuilder asm, AtomicInteger auxCount);
 }

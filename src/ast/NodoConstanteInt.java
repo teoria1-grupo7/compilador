@@ -16,7 +16,7 @@ public class NodoConstanteInt extends NodoExpresion {
     }
 
     @Override
-    public String assemble(AtomicInteger auxCount) {
+    public String assemble(StringBuilder asm, AtomicInteger auxCount) {
         return "_" + valor;
     }
 }

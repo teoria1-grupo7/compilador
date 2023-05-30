@@ -11,7 +11,7 @@ public class NodoIdentificador extends NodoExpresion {
     }
 
     @Override
-    public String assemble(AtomicInteger auxCount) {
+    public String assemble(StringBuilder asm, AtomicInteger auxCount) {
         return "_" + identificador;
     }
 

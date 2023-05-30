@@ -18,7 +18,10 @@ public class NodoPrint extends NodoSentencia {
     }
 
     @Override
-    public String assemble(AtomicInteger auxCount) {
-        return "displayString " + valor.assemble(auxCount);
+    public String assemble(StringBuilder asm, AtomicInteger auxCount) {
+        asm.append("\n")
+           .append("displayString ").append(valor.assemble(asm, auxCount))
+           .append("\n");
+        return "";
     }
 }

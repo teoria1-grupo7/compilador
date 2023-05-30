@@ -21,8 +21,13 @@ public class NodoAsignacion extends NodoSentencia {
     }
 
     @Override
-    public String assemble(AtomicInteger auxCount) {
-        return "fld " + expresion.assemble(auxCount) +
-            "\nfstp " + identificador.assemble(auxCount) + "\n";
+    public String assemble(StringBuilder asm, AtomicInteger auxCount) {
+        String expResult = expresion.assemble(asm, auxCount);
+        String idResult = identificador.assemble(asm, auxCount);
+        asm.append("\n");
+        asm.append("fld ").append(expResult).append("\n")
+            .append("fstp ").append(idResult)
+            .append("\n");
+        return "";
     }
 }

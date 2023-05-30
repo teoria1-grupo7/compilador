@@ -39,7 +39,7 @@ public class NodoPrograma extends Nodo {
         // Agregar header y tabla de simbolos?
         AtomicInteger auxCount = new AtomicInteger(0);
         for (NodoSentencia sentencia : sentencias) {
-            resultado.append(sentencia.assemble(auxCount)).append("\n");
+            sentencia.assemble(resultado, auxCount);
         }
         // Agregar footer?
         return resultado.toString();

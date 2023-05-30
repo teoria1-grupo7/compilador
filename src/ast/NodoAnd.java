@@ -22,10 +22,10 @@ public NodoAnd (NodoExpresionBooleana izquierda, NodoExpresionBooleana derecha) 
     }
 
   @Override
-  protected String assemble(AtomicInteger auxCount, Boolean doubleComp, Boolean inverse) {
-    return
-        "\n" + izquierda.assemble(auxCount, Boolean.TRUE, Boolean.TRUE) + " else_part"
-     +  "\n" + derecha.assemble(auxCount, Boolean.TRUE, Boolean.FALSE) + " else_part";
+  protected String assemble(StringBuilder asm, AtomicInteger auxCount, Boolean inverse, String jumpToLeft, String jumpToRight) {
+    izquierda.assemble(asm, auxCount, Boolean.TRUE, jumpToLeft, null);
+    derecha.assemble(asm, auxCount, Boolean.TRUE, jumpToLeft, null);
+    return "";
   }
 }
 

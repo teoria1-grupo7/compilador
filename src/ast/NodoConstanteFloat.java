@@ -15,7 +15,7 @@ public class NodoConstanteFloat extends NodoExpresion {
         return "CTE: " + valor;
     }
     @Override
-    public String assemble(AtomicInteger auxCount) {
+    public String assemble(StringBuilder asm, AtomicInteger auxCount) {
         return "_" + valor;
     }
 }

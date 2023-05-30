@@ -29,5 +29,5 @@ private final NodoExpresion  derecha;
     }
 
     @Override
-    protected abstract String assemble(AtomicInteger auxCount, Boolean doubleComp, Boolean inverse);
+    protected abstract String assemble(StringBuilder asm, AtomicInteger auxCount, Boolean inverse, String jumpToLeft, String jumpToRight);
 }

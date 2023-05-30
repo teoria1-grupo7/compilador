@@ -361,7 +361,7 @@ condicion ::=
         RESULT = (NodoExpresionBooleana) bet;
     :};
 
-expresion_booleana ::= LPAREN termino_booleano:t1 RPAREN OR LPAREN termino_booleano RPAREN:t2 {:
+expresion_booleana ::= LPAREN termino_booleano:t1 RPAREN OR LPAREN termino_booleano:t2 RPAREN {:
                            System.out.println("[expresion_booleana01] Expresión: LPAREN "+t1+" OR "+t2+" RPAREN");
 
                            RESULT = new NodoOr((NodoExpresionBooleana)t1, (NodoExpresionBooleana) t2);

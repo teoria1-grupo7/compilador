@@ -53,16 +53,18 @@ public class NodoCiclo extends NodoSentencia {
     }
 
     @Override
-    public String assemble(AtomicInteger auxCount) {
-        StringBuilder cuerpo = new StringBuilder();
+    public String assemble(StringBuilder asm, AtomicInteger auxCount) {
+        asm.append("\n");
+        asm.append("inicio_while:");
+        this.condicion.assemble(asm, auxCount, Boolean.TRUE, "end_while", "sentencias_while");
+        asm.append("\n");
+        asm.append("sentencias_while:").append("\n");
         for (NodoSentencia nodoSentencia : this.cuerpo) {
-            cuerpo.append(nodoSentencia.assemble(auxCount));
+            nodoSentencia.assemble(asm, auxCount);
         }
-
-        return "inicio_while:\n" + condicion.assemble(auxCount, Boolean.FALSE, Boolean.TRUE) + " end_while"
-            + "\n" + cuerpo + "\njmp inicio_while"
-            + "\nend_while:\n";
-
+        asm.append("JMP inicio_while").append("\n")
+           .append("end_while:").append("\n");
+        return "";
     }
 }
 

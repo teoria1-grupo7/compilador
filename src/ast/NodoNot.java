@@ -20,7 +20,7 @@ public class NodoNot extends NodoExpresionBooleana {
   }
 
   @Override
-  protected String assemble(AtomicInteger auxCount, Boolean doubleComp, Boolean inverse) {
+  protected String assemble(StringBuilder asm, AtomicInteger auxCount, Boolean inverse, String jumpToLeft, String jumpToRight) {
     return null;
   }
 }

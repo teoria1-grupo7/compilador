@@ -8,6 +8,6 @@ public abstract class NodoExpresion extends Nodo {
         super(nombre);
     }
 
-  public abstract String assemble(AtomicInteger auxCount);
+  public abstract String assemble(StringBuilder asm, AtomicInteger auxCount);
 
 }

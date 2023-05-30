@@ -8,5 +8,5 @@ public abstract class NodoSentencia extends Nodo {
         super(nombre);
     }
 
-    public abstract String assemble(AtomicInteger auxCount);
+    public abstract String assemble(StringBuilder resultado, AtomicInteger auxCount);
 }
