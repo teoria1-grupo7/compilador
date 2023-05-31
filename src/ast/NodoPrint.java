@@ -21,6 +21,8 @@ public class NodoPrint extends NodoSentencia {
     public String assemble(StringBuilder asm, AtomicInteger auxCount) {
         asm.append("\n")
            .append("displayString ").append(valor.assemble(asm, auxCount))
+           .append("\n")
+           .append("newLine")
            .append("\n");
         return "";
     }

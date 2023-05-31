@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.io.IOException;
 
 public class Main {
-    private final static String name = "prueba";
+    private final static String name = "prog-simple";
     private final static Path PRUEBA_PATH = Paths.get(name + ".txt");
     private final static Path TS_PATH = Paths.get(name + "-ts.txt");
 
@@ -49,7 +49,7 @@ public class Main {
                     archivo.close();
                     FileWriter asm = new FileWriter(name + ".asm");
                     PrintWriter pw2 = new PrintWriter(asm);
-                    String assembler = program.assemble();
+                    String assembler = program.assemble(par.helper.getSymbolTable());
                     pw2.println(assembler);
                     asm.close();
                 } catch (Exception e) {

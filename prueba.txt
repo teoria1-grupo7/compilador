@@ -44,6 +44,7 @@ Else{
 If BETWEEN(suma, [2 ; 54]){
 </	d1 = 3,14/>
 	d1 = 3.14
+	PRINT "suma esta entre 2 y 54"
 }
 
 

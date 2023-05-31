@@ -1,5 +1,12 @@
 package ast;
 
+import static helper.AssemblerHelper.buildCodeHeader;
+import static helper.AssemblerHelper.buildFooter;
+import static helper.AssemblerHelper.buildHeader;
+import static helper.AssemblerHelper.buildDataSection;
+
+import compilador.SymbolTableEntry;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -34,15 +41,21 @@ public class NodoPrograma extends Nodo {
         return resultado.toString();
     }
 
-    public String assemble() {
-        StringBuilder resultado = new StringBuilder();
-        // Agregar header y tabla de simbolos?
+    public String assemble(HashMap<String, SymbolTableEntry> symbolTable) {
+        StringBuilder codeAssembler = new StringBuilder();
         AtomicInteger auxCount = new AtomicInteger(0);
-        for (NodoSentencia sentencia : sentencias) {
-            sentencia.assemble(resultado, auxCount);
+        for (NodoSentencia node : sentencias) {
+            node.assemble(codeAssembler, auxCount);
         }
-        // Agregar footer?
-        return resultado.toString();
+
+        return buildHeader()
+            + "\n; vars from symbol table and aux vars\n"
+            + buildDataSection(symbolTable, auxCount.get())
+            + "\n; program instructions\n"
+            + buildCodeHeader()
+            + codeAssembler
+            + "\n; end of execution\n"
+            + buildFooter();
     }
 }
 

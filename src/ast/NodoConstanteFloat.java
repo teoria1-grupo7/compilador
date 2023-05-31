@@ -16,6 +16,6 @@ public class NodoConstanteFloat extends NodoExpresion {
     }
     @Override
     public String assemble(StringBuilder asm, AtomicInteger auxCount) {
-        return "_" + valor;
+        return "_" + String.valueOf(valor).replace(".", "_point_");
     }
 }

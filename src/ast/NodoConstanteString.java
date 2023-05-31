@@ -12,7 +12,8 @@ public class NodoConstanteString extends NodoExpresion {
 
     @Override
     public String assemble(StringBuilder asm, AtomicInteger auxCount) {
-        return "_" + valor;
+        return "_" + valor.replace(" ", "_").replace(".", "_point_")
+            .replaceAll("[¡!¿?]", "_");
     }
 
     @Override

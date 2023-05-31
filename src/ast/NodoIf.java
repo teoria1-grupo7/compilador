@@ -54,22 +54,23 @@ public class NodoIf extends NodoSentencia {
 
     @Override
     public String assemble(StringBuilder asm, AtomicInteger auxCount) {
-        this.condicion.assemble(asm, auxCount, Boolean.TRUE, "else_part", "then_part");
+        int i = auxCount.getAndIncrement();
+        this.condicion.assemble(asm, auxCount, Boolean.TRUE, "else_part" + i, "then_part" + i);
         asm.append("\n")
-            .append("then_part:");
+            .append("then_part").append(i).append(":");
         for (NodoSentencia nodoSentencia : this.sentenciasThen) {
             nodoSentencia.assemble(asm, auxCount);
         }
         asm.append("\n")
-           .append("jmp end_if").append("\n")
-           .append("else_part:").append("\n");
+           .append("jmp end_if").append(i).append("\n")
+           .append("else_part").append(i).append(":").append("\n");
         if (sentenciasElse != null) {
             for (NodoSentencia nodoSentencia : this.sentenciasElse) {
                 nodoSentencia.assemble(asm, auxCount);
             }
         }
         asm.append("\n")
-           .append("end_if:").append("\n");
+           .append("end_if").append(i).append(":").append("\n");
         return "";
     }
 }
