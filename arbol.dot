@@ -1,48 +1,134 @@
 graph G {nodo_programa [label="Programa"]
-nodo_83001543 [label=":="]
-nodo_programa -- nodo_83001543
-nodo_1103748713 [label="ID: suma"]
-nodo_83001543 -- nodo_1103748713
-nodo_1981958457 [label="CTE: 7.5"]
-nodo_83001543 -- nodo_1981958457
-nodo_1092575850 [label=":="]
-nodo_programa -- nodo_1092575850
-nodo_826291009 [label="ID: contador"]
-nodo_1092575850 -- nodo_826291009
-nodo_797724127 [label="CTE: 15"]
-nodo_1092575850 -- nodo_797724127
-nodo_837995773 [label=":="]
-nodo_programa -- nodo_837995773
-nodo_1246955175 [label="ID: suma"]
-nodo_837995773 -- nodo_1246955175
-nodo_661238050 [label="+"]
-nodo_837995773 -- nodo_661238050
-nodo_1799724364 [label="ID: suma"]
-nodo_661238050 -- nodo_1799724364
-nodo_1282552407 [label="ID: contador"]
-nodo_661238050 -- nodo_1282552407
-nodo_306790154 [label="IF"]
-nodo_programa -- nodo_306790154
-nodo_1440712733 [label="AND"]
-nodo_306790154 -- nodo_1440712733
-nodo_1530272483 [label=">="]
-nodo_1440712733 -- nodo_1530272483
-nodo_1417919866 [label="ID: suma"]
-nodo_1530272483 -- nodo_1417919866
-nodo_962469843 [label="CTE: 10"]
-nodo_1530272483 -- nodo_962469843
-nodo_1693009552 [label="<="]
-nodo_1440712733 -- nodo_1693009552
-nodo_920457876 [label="ID: suma"]
-nodo_1693009552 -- nodo_920457876
-nodo_1409352966 [label="CTE: 30"]
-nodo_1693009552 -- nodo_1409352966
-nodo_1574434734 [label="Then"]
-nodo_306790154 -- nodo_1574434734
-nodo_1260125513 [label=":="]
-nodo_1574434734 -- nodo_1260125513
-nodo_343337219 [label="ID: d1"]
-nodo_1260125513 -- nodo_343337219
-nodo_335254305 [label="CTE: 3.14"]
-nodo_1260125513 -- nodo_335254305
+nodo_1906768596 [label="PRINT"]
+nodo_programa -- nodo_1906768596
+nodo_2032087448 [label="CTE: Prueba 2"]
+nodo_1906768596 -- nodo_2032087448
+nodo_1332109290 [label=":="]
+nodo_programa -- nodo_1332109290
+nodo_435542263 [label="ID: suma"]
+nodo_1332109290 -- nodo_435542263
+nodo_418788936 [label="CTE: 7.5"]
+nodo_1332109290 -- nodo_418788936
+nodo_591135590 [label=":="]
+nodo_programa -- nodo_591135590
+nodo_1394604990 [label="ID: contar"]
+nodo_591135590 -- nodo_1394604990
+nodo_743810290 [label="CTE: 18.22"]
+nodo_591135590 -- nodo_743810290
+nodo_124937364 [label=":="]
+nodo_programa -- nodo_124937364
+nodo_1412872859 [label="ID: contador"]
+nodo_124937364 -- nodo_1412872859
+nodo_1728316395 [label="CTE: 15"]
+nodo_124937364 -- nodo_1728316395
+nodo_855977201 [label="WHILE"]
+nodo_programa -- nodo_855977201
+nodo_686858541 [label="<="]
+nodo_855977201 -- nodo_686858541
+nodo_1774038594 [label="ID: contador"]
+nodo_686858541 -- nodo_1774038594
+nodo_1917948888 [label="CTE: 92"]
+nodo_686858541 -- nodo_1917948888
+nodo_1239399988 [label="Cuerpo"]
+nodo_855977201 -- nodo_1239399988
+nodo_2120446521 [label=":="]
+nodo_1239399988 -- nodo_2120446521
+nodo_2128274840 [label="ID: contador"]
+nodo_2120446521 -- nodo_2128274840
+nodo_1644670535 [label="+"]
+nodo_2120446521 -- nodo_1644670535
+nodo_153058607 [label="ID: contador"]
+nodo_1644670535 -- nodo_153058607
+nodo_909491097 [label="CTE: 1"]
+nodo_1644670535 -- nodo_909491097
+nodo_2026141642 [label=":="]
+nodo_1239399988 -- nodo_2026141642
+nodo_1387537398 [label="ID: actual"]
+nodo_2026141642 -- nodo_1387537398
+nodo_1506211411 [label="+"]
+nodo_2026141642 -- nodo_1506211411
+nodo_1836241288 [label="/"]
+nodo_1506211411 -- nodo_1836241288
+nodo_109128616 [label="ID: contador"]
+nodo_1836241288 -- nodo_109128616
+nodo_1850428056 [label="CTE: 0.342"]
+nodo_1836241288 -- nodo_1850428056
+nodo_1792529376 [label="*"]
+nodo_1506211411 -- nodo_1792529376
+nodo_1359370325 [label="ID: contador"]
+nodo_1792529376 -- nodo_1359370325
+nodo_120124909 [label="+"]
+nodo_1792529376 -- nodo_120124909
+nodo_396612515 [label="ID: contar"]
+nodo_120124909 -- nodo_396612515
+nodo_217229698 [label="CTE: 4.67"]
+nodo_120124909 -- nodo_217229698
+nodo_453860383 [label=":="]
+nodo_1239399988 -- nodo_453860383
+nodo_859289945 [label="ID: suma"]
+nodo_453860383 -- nodo_859289945
+nodo_1650126668 [label="+"]
+nodo_453860383 -- nodo_1650126668
+nodo_185919644 [label="ID: suma"]
+nodo_1650126668 -- nodo_185919644
+nodo_2102471356 [label="ID: actual"]
+nodo_1650126668 -- nodo_2102471356
+nodo_441192103 [label="IF"]
+nodo_programa -- nodo_441192103
+nodo_1680090958 [label="AND"]
+nodo_441192103 -- nodo_1680090958
+nodo_361769794 [label=">"]
+nodo_1680090958 -- nodo_361769794
+nodo_767334947 [label="ID: actual"]
+nodo_361769794 -- nodo_767334947
+nodo_256135493 [label="CTE: 2"]
+nodo_361769794 -- nodo_256135493
+nodo_189012225 [label="<>"]
+nodo_1680090958 -- nodo_189012225
+nodo_936172501 [label="ID: actual"]
+nodo_189012225 -- nodo_936172501
+nodo_489360956 [label="CTE: 0"]
+nodo_189012225 -- nodo_489360956
+nodo_128818965 [label="Then"]
+nodo_441192103 -- nodo_128818965
+nodo_1723979374 [label="PRINT"]
+nodo_128818965 -- nodo_1723979374
+nodo_833720475 [label="CTE: actual es mayor que 2 y distinto de cero"]
+nodo_1723979374 -- nodo_833720475
+nodo_132773850 [label=":="]
+nodo_128818965 -- nodo_132773850
+nodo_787631197 [label="ID: palabra"]
+nodo_132773850 -- nodo_787631197
+nodo_2022383319 [label="CTE: es mayor"]
+nodo_132773850 -- nodo_2022383319
+nodo_1563058662 [label="Else"]
+nodo_441192103 -- nodo_1563058662
+nodo_1637322893 [label="PRINT"]
+nodo_1563058662 -- nodo_1637322893
+nodo_1323750889 [label="CTE: no es mayor que 2"]
+nodo_1637322893 -- nodo_1323750889
+nodo_1208246049 [label="IF"]
+nodo_programa -- nodo_1208246049
+nodo_2080197054 [label="AND"]
+nodo_1208246049 -- nodo_2080197054
+nodo_1406793323 [label=">="]
+nodo_2080197054 -- nodo_1406793323
+nodo_954699314 [label="ID: suma"]
+nodo_1406793323 -- nodo_954699314
+nodo_599555021 [label="CTE: 10"]
+nodo_1406793323 -- nodo_599555021
+nodo_72068567 [label="<="]
+nodo_2080197054 -- nodo_72068567
+nodo_182503913 [label="ID: suma"]
+nodo_72068567 -- nodo_182503913
+nodo_979936599 [label="CTE: 30"]
+nodo_72068567 -- nodo_979936599
+nodo_378932336 [label="Then"]
+nodo_1208246049 -- nodo_378932336
+nodo_886788717 [label=":="]
+nodo_378932336 -- nodo_886788717
+nodo_310675086 [label="ID: d1"]
+nodo_886788717 -- nodo_310675086
+nodo_1756156855 [label="CTE: 3.14"]
+nodo_886788717 -- nodo_1756156855
 }

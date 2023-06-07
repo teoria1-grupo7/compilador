@@ -1,5 +1,7 @@
 package ast;
 
+import compilador.SymbolTableEntry;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -53,14 +55,15 @@ public class NodoCiclo extends NodoSentencia {
     }
 
     @Override
-    public String assemble(StringBuilder asm, AtomicInteger auxCount) {
+    public String assemble(StringBuilder asm, HashMap<String, SymbolTableEntry> symbolTable,
+        AtomicInteger auxCount) {
         asm.append("\n");
         asm.append("inicio_while:");
         this.condicion.assemble(asm, auxCount, Boolean.TRUE, "end_while", "sentencias_while");
         asm.append("\n");
         asm.append("sentencias_while:").append("\n");
         for (NodoSentencia nodoSentencia : this.cuerpo) {
-            nodoSentencia.assemble(asm, auxCount);
+            nodoSentencia.assemble(asm, symbolTable, auxCount);
         }
         asm.append("JMP inicio_while").append("\n")
            .append("end_while:").append("\n");

@@ -26,7 +26,7 @@ public class ParserHelper {
         this.symbolTable = symbolTable;
     }
 
-    public HashMap getSymbolTable() {
+    public HashMap<String, SymbolTableEntry>  getSymbolTable() {
         return this.symbolTable;
     }
 

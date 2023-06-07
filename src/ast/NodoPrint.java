@@ -1,11 +1,13 @@
 package ast;
 
+import compilador.SymbolTableEntry;
+import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class NodoPrint extends NodoSentencia {
-    private final NodoConstanteString valor;
+    private final NodoExpresion valor;
 
-    public NodoPrint(NodoConstanteString valor) {
+    public NodoPrint(NodoExpresion valor) {
         super("PRINT");
         this.valor = valor;
     }
@@ -18,7 +20,8 @@ public class NodoPrint extends NodoSentencia {
     }
 
     @Override
-    public String assemble(StringBuilder asm, AtomicInteger auxCount) {
+    public String assemble(StringBuilder asm, HashMap<String, SymbolTableEntry> symbolTable,
+        AtomicInteger auxCount) {
         asm.append("\n")
            .append("displayString ").append(valor.assemble(asm, auxCount))
            .append("\n")

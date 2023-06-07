@@ -1,5 +1,7 @@
 package ast;
 
+import compilador.SymbolTableEntry;
+import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public abstract class NodoSentencia extends Nodo {
@@ -8,5 +10,5 @@ public abstract class NodoSentencia extends Nodo {
         super(nombre);
     }
 
-    public abstract String assemble(StringBuilder resultado, AtomicInteger auxCount);
+    public abstract String assemble(StringBuilder resultado,  HashMap<String, SymbolTableEntry> symbolTable, AtomicInteger auxCount);
 }

@@ -16,7 +16,7 @@ BEGIN.PROGRAM
 
 PRINT  "Prueba.txt Analizador Lexico!"
 
-contador = contador + 0
+contador = 0
 suma = 7.5
 contar = 18.22
 
@@ -37,14 +37,19 @@ Else{
 	PRINT "no es mayor que 2"
 }
 
-
+if ((suma < 0) or (actual < 0)){
+  PRINT "Suma es menor que 0 o actual menor que 2"
+}
 
 </ BETWEEN Grupo 7, eliminar si no es tu tema especial />
 
 If BETWEEN(suma, [2 ; 54]){
 </	d1 = 3,14/>
 	d1 = 3.14
-	PRINT "suma esta entre 2 y 54"
+	print "Esta entre 2 y 54"
+}
+else {
+  print "No esta entre 2 y 54"
 }
 
 

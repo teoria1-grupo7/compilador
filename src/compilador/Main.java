@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.io.IOException;
 
 public class Main {
-    private final static String name = "prog-simple";
+    private final static String name = "prueba";
     private final static Path PRUEBA_PATH = Paths.get(name + ".txt");
     private final static Path TS_PATH = Paths.get(name + "-ts.txt");
 

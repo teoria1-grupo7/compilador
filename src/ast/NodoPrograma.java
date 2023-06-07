@@ -45,7 +45,7 @@ public class NodoPrograma extends Nodo {
         StringBuilder codeAssembler = new StringBuilder();
         AtomicInteger auxCount = new AtomicInteger(0);
         for (NodoSentencia node : sentencias) {
-            node.assemble(codeAssembler, auxCount);
+            node.assemble(codeAssembler, symbolTable, auxCount);
         }
 
         return buildHeader()
