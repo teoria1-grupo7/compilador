@@ -1,5 +1,7 @@
 package ast;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 public class NodoConstanteFloat extends NodoExpresion {
     private final float valor;
 
@@ -11,5 +13,9 @@ public class NodoConstanteFloat extends NodoExpresion {
     @Override
     public String getDescripcionNodo() {
         return "CTE: " + valor;
+    }
+    @Override
+    public String assemble(StringBuilder asm, AtomicInteger auxCount) {
+        return "_" + String.valueOf(valor).replace(".", "_point_");
     }
 }

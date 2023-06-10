@@ -17,7 +17,6 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
-import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -268,7 +267,7 @@ public class MainFrame extends javax.swing.JFrame {
         );
 
         pack();
-        setDotExecutablePath();
+        //setDotExecutablePath();
     }// </editor-fold>//GEN-END:initComponents
 
     private void setDotExecutablePath() {
@@ -296,6 +295,17 @@ public class MainFrame extends javax.swing.JFrame {
         }
     }
 
+    private String chooseAsmFileLocation() {
+        //Create a file chooser
+        final JFileChooser fc = new JFileChooser();
+        //In response to a button click:
+        int returnVal = fc.showSaveDialog(this);
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            File file = fc.getSelectedFile();
+            return file.getAbsolutePath();
+        }
+        return "";
+    }
     private void jButtonAbrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAbrirActionPerformed
         //Show File Open dialouge here
         int status = fileOpener.showOpenDialog(rootPane);
@@ -345,13 +355,32 @@ public class MainFrame extends javax.swing.JFrame {
             Lexico lexico = new Lexico(reader);
             parser par = new parser(lexico);
             try {
+                // Parse input
                 Symbol s = par.parse();
-                jTextAreaTS.setText(outputSymbolTable(par.helper.getSymbolTable()));
+                HashMap<String, SymbolTableEntry> symbolTable = par.helper.getSymbolTable();
+
+                // Output symbol table
+                jTextAreaTS.setText(outputSymbolTable(symbolTable));
                 NodoPrograma program = (NodoPrograma) s.value;
-                FileWriter archivo = new FileWriter("arbol.dot");
-                PrintWriter pw = new PrintWriter(archivo);
+
+                // Generate ASM
+                String assembler = program.assemble(symbolTable);
+                JOptionPane.showMessageDialog(this, "Assembler generado correctamente. Elija la ubicación", "Operación exitosa", JOptionPane.INFORMATION_MESSAGE);
+                String asmFilePath = chooseAsmFileLocation();
+                String asmOutputPath =
+                    !asmFilePath.equals("") ? asmFilePath + ".asm" : "program.asm";
+                FileWriter asmFile = new FileWriter(asmOutputPath);
+                PrintWriter asmWriter = new PrintWriter(asmFile);
+
+                asmWriter.println(assembler);
+                asmFile.close();
+                JOptionPane.showMessageDialog(this, "Archivo assembler guardado en " + asmOutputPath);
+
+                // Generate DOT file
+                FileWriter dotFile = new FileWriter("arbol.dot");
+                PrintWriter pw = new PrintWriter(dotFile);
                 pw.println(program.graficar());
-                archivo.close();
+                dotFile.close();
                 generateAstImage();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -363,6 +392,7 @@ public class MainFrame extends javax.swing.JFrame {
             e.printStackTrace();
         }
     }//GEN-LAST:event_jButtonCompilarActionPerformed
+
 
     private void generateAstImage() {
         if (this.dotPath != null) {

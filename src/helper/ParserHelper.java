@@ -26,7 +26,7 @@ public class ParserHelper {
         this.symbolTable = symbolTable;
     }
 
-    public HashMap getSymbolTable() {
+    public HashMap<String, SymbolTableEntry>  getSymbolTable() {
         return this.symbolTable;
     }
 
@@ -49,26 +49,30 @@ public class ParserHelper {
         varNames = new ArrayList<>();
     }
 
+    private String preprocessSymbol(String symbol) {
+        return "_" + symbol.replace(" ", "_").replace(".", "_point_").replaceAll("[¡!¿?]", "_");
+    }
+
     public void addCteInt(Number cte) {
         String cteNumString = Integer.toString(cte.intValue());
-        String string_literal_aux = "_"  + cteNumString;
+        String string_literal_aux = preprocessSymbol(cteNumString);
         SymbolTableEntry symbolTableEntry =
                 new SymbolTableEntry(lexico.getNombreToken(sym.INTEGER_LITERAL), lexico.getNombreToken(sym.INT), cteNumString, null);
         symbolTable.put(string_literal_aux, symbolTableEntry);
     }
 
     public void addCteFloat(Number cte) {
-        String cteNumString = Double.toString(cte.doubleValue());
-        String string_literal_aux = "_"  + cteNumString;
+        String cteNumString = cte.toString();
+        String string_literal_aux = preprocessSymbol(cteNumString);
         SymbolTableEntry symbolTableEntry =
-                new SymbolTableEntry(lexico.getNombreToken(sym.FLOATING_POINT_LITERAL), null, cteNumString, null);
+                new SymbolTableEntry(lexico.getNombreToken(sym.FLOATING_POINT_LITERAL), lexico.getNombreToken(sym.FLOAT), cteNumString, null);
         symbolTable.put(string_literal_aux, symbolTableEntry);
     }
 
     public void addCteString(String cte){
-        String string_literal_aux = "_"  + cte;
+        String string_literal_aux = preprocessSymbol(cte);
         SymbolTableEntry symbolTableEntry =
-                new SymbolTableEntry(lexico.getNombreToken(sym.STRING_LITERAL), null, cte, cte.length());
+                new SymbolTableEntry(lexico.getNombreToken(sym.STRING_LITERAL), lexico.getNombreToken(sym.STRING), cte, cte.length());
         symbolTable.put(string_literal_aux, symbolTableEntry);
     }
 

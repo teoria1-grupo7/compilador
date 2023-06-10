@@ -1,6 +1,8 @@
 package ast;
 
-public class NodoExpresionBinaria extends NodoExpresion {
+import java.util.concurrent.atomic.AtomicInteger;
+
+public abstract class NodoExpresionBinaria extends NodoExpresion {
     private final NodoExpresion izquierda;
     private final NodoExpresion derecha;
 
@@ -17,4 +19,15 @@ public class NodoExpresionBinaria extends NodoExpresion {
                 izquierda.graficar(miId) +
                 derecha.graficar(miId);
     }
+
+    public NodoExpresion getIzquierda() {
+        return izquierda;
+    }
+
+    public NodoExpresion getDerecha() {
+        return derecha;
+    }
+
+    @Override
+    public abstract String assemble(StringBuilder asm, AtomicInteger auxCount);
 }

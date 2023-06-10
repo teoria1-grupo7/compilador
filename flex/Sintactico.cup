@@ -361,7 +361,7 @@ condicion ::=
         RESULT = (NodoExpresionBooleana) bet;
     :};
 
-expresion_booleana ::= LPAREN termino_booleano:t1 RPAREN OR LPAREN termino_booleano RPAREN:t2 {:
+expresion_booleana ::= LPAREN termino_booleano:t1 RPAREN OR LPAREN termino_booleano:t2 RPAREN {:
                            System.out.println("[expresion_booleana01] Expresión: LPAREN "+t1+" OR "+t2+" RPAREN");
 
                            RESULT = new NodoOr((NodoExpresionBooleana)t1, (NodoExpresionBooleana) t2);
@@ -405,7 +405,13 @@ funcion_print ::=
     PRINT constante_string:cadena {:
         System.out.println("[funcion_print01] PRINT \""+cadena+"\"");
 
-        RESULT = new NodoPrint((NodoConstanteString) cadena);
+        RESULT = new NodoPrint((NodoExpresion) cadena);
+    :}
+    |
+    PRINT IDENTIFIER:id {:
+        System.out.println("[funcion_print02] PRINT \""+id+"\"");
+
+        RESULT = new NodoPrint((NodoExpresion) new NodoIdentificador(id));
     :};
 
 funcion_between ::= BETWEEN

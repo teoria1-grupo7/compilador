@@ -47,6 +47,11 @@ public class Main {
                     PrintWriter pw = new PrintWriter(archivo);
                     pw.println(program.graficar());
                     archivo.close();
+                    FileWriter asm = new FileWriter(name + ".asm");
+                    PrintWriter pw2 = new PrintWriter(asm);
+                    String assembler = program.assemble(par.helper.getSymbolTable());
+                    pw2.println(assembler);
+                    asm.close();
                 } catch (Exception e) {
                     System.out.println(e);
                 }

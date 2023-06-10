@@ -1,0 +1,29 @@
+DECLARE
+
+[actual] := [INT]
+
+ENDDECLARE
+
+BEGIN.PROGRAM
+
+actual = 1
+
+while ((actual > 0) and (actual < 10)) {
+  print "Actual es mayor que 0 y menor que 10"
+  actual = actual + 1
+}
+
+actual = 1
+
+If ((actual >= 2) or (actual < 0)) {
+	print "Es mayor que 2 o menor que 0"
+}
+else {
+  print "Menor que 2 y mayor a 0"
+}
+
+
+
+
+
+END.PROGRAM

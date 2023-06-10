@@ -1,6 +1,9 @@
 package ast;
 
+import compilador.SymbolTableEntry;
+import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class NodoIf extends NodoSentencia {
     private final NodoExpresionBooleana condicion;
@@ -49,5 +52,28 @@ public class NodoIf extends NodoSentencia {
         }
 
         return resultado.toString();
+    }
+
+    @Override
+    public String assemble(StringBuilder asm, HashMap<String, SymbolTableEntry> symbolTable,
+        AtomicInteger auxCount) {
+        int i = auxCount.getAndIncrement();
+        this.condicion.assemble(asm, auxCount, Boolean.TRUE, "else_part" + i, "then_part" + i);
+        asm.append("\n")
+            .append("then_part").append(i).append(":");
+        for (NodoSentencia nodoSentencia : this.sentenciasThen) {
+            nodoSentencia.assemble(asm, symbolTable, auxCount);
+        }
+        asm.append("\n")
+           .append("jmp end_if").append(i).append("\n")
+           .append("else_part").append(i).append(":").append("\n");
+        if (sentenciasElse != null) {
+            for (NodoSentencia nodoSentencia : this.sentenciasElse) {
+                nodoSentencia.assemble(asm, symbolTable, auxCount);
+            }
+        }
+        asm.append("\n")
+           .append("end_if").append(i).append(":").append("\n");
+        return "";
     }
 }

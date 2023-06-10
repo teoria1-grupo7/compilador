@@ -1,10 +1,12 @@
 package ast;
 
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 public class NodoAnd extends NodoExpresionBooleana {
         
        private final NodoExpresionBooleana izquierda;
-private final NodoExpresionBooleana derecha;
+       private final NodoExpresionBooleana derecha;
 
 public NodoAnd (NodoExpresionBooleana izquierda, NodoExpresionBooleana derecha) {
         super("AND");
@@ -19,5 +21,11 @@ public NodoAnd (NodoExpresionBooleana izquierda, NodoExpresionBooleana derecha) 
                 derecha.graficar(miId);
     }
 
+  @Override
+  protected String assemble(StringBuilder asm, AtomicInteger auxCount, Boolean inverse, String jumpToLeft, String jumpToRight) {
+    izquierda.assemble(asm, auxCount, Boolean.TRUE, jumpToLeft, null);
+    derecha.assemble(asm, auxCount, Boolean.TRUE, jumpToLeft, null);
+    return "";
+  }
 }
 
