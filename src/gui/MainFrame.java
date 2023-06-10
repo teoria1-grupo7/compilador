@@ -142,7 +142,9 @@ public class MainFrame extends javax.swing.JFrame {
         jScrollPaneSalida = new javax.swing.JScrollPane();
         jTextPaneSalida = new javax.swing.JTextPane();
         jScrollPaneTS = new javax.swing.JScrollPane();
+        jScrollPaneAsm = new javax.swing.JScrollPane();
         jTextAreaTS = new javax.swing.JTextArea();
+        jTextAreaAsm = new javax.swing.JTextArea();
 
         jLabel1 = new javax.swing.JLabel();
 
@@ -229,7 +231,14 @@ public class MainFrame extends javax.swing.JFrame {
         jTextAreaTS.setRows(5);
         jScrollPaneTS.setViewportView(jTextAreaTS);
 
+        jTextAreaAsm.setColumns(20);
+        jTextAreaAsm.setFont(new java.awt.Font("Monospaced", 0, 14)); // NOI18N
+        jTextAreaAsm.setLineWrap(false);
+        jTextAreaAsm.setRows(5);
+        jScrollPaneAsm.setViewportView(jTextAreaAsm);
+
         jTabbedPaneSalida.addTab("TS", jScrollPaneTS);
+        jTabbedPaneSalida.addTab("ASM", jScrollPaneAsm);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -365,6 +374,7 @@ public class MainFrame extends javax.swing.JFrame {
 
                 // Generate ASM
                 String assembler = program.assemble(symbolTable);
+                jTextAreaAsm.setText(assembler);
                 JOptionPane.showMessageDialog(this, "Assembler generado correctamente. Elija la ubicación", "Operación exitosa", JOptionPane.INFORMATION_MESSAGE);
                 String asmFilePath = chooseAsmFileLocation();
                 String asmOutputPath =
@@ -464,6 +474,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JTextArea display;
     private javax.swing.JTextPane jTextPaneSalida;
     private javax.swing.JTextArea jTextAreaTS;
+    private javax.swing.JTextArea jTextAreaAsm;
     private javax.swing.JFileChooser fileOpener;
     private javax.swing.JFileChooser execFileOpener;
     private javax.swing.JButton jButtonAbrir;
@@ -475,6 +486,8 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPaneCodigo;
     private javax.swing.JScrollPane jScrollPaneSalida;
     private javax.swing.JScrollPane jScrollPaneTS;
+    private javax.swing.JScrollPane jScrollPaneAsm;
+
     private javax.swing.JTabbedPane jTabbedPaneSalida;
     private javax.swing.JTabbedPane jTabbedPaneCodigo;
     private javax.swing.JToolBar jToolBar1;
