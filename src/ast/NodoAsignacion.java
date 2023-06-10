@@ -33,7 +33,6 @@ public class NodoAsignacion extends NodoSentencia {
         SymbolTableEntry entry = symbolTable.get(idResult);
         asm.append("\n");
         if (entry != null && Objects.equals(entry.getType(), "STRING")) {
-            asm.append(";Pending string assignment").append("\n");
             asm.append("mov edi, offset ").append(idResult).append("\n");
             asm.append("mov esi, offset ").append(expResult).append("\n");
             asm.append("mov ecx, ").append(symbolTable.get(expResult).getLen() + 1).append("\n");
