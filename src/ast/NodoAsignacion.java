@@ -1,11 +1,8 @@
 package ast;
 
 import compilador.SymbolTableEntry;
-import compilador.sym;
-import helper.ParserHelper;
 import java.util.HashMap;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class NodoAsignacion extends NodoSentencia {

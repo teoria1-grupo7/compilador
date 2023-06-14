@@ -1,134 +1,174 @@
 graph G {nodo_programa [label="Programa"]
-nodo_1906768596 [label="PRINT"]
-nodo_programa -- nodo_1906768596
-nodo_2032087448 [label="CTE: Prueba 2"]
-nodo_1906768596 -- nodo_2032087448
-nodo_1332109290 [label=":="]
-nodo_programa -- nodo_1332109290
-nodo_435542263 [label="ID: suma"]
-nodo_1332109290 -- nodo_435542263
-nodo_418788936 [label="CTE: 7.5"]
-nodo_1332109290 -- nodo_418788936
-nodo_591135590 [label=":="]
-nodo_programa -- nodo_591135590
-nodo_1394604990 [label="ID: contar"]
-nodo_591135590 -- nodo_1394604990
-nodo_743810290 [label="CTE: 18.22"]
-nodo_591135590 -- nodo_743810290
-nodo_124937364 [label=":="]
-nodo_programa -- nodo_124937364
-nodo_1412872859 [label="ID: contador"]
-nodo_124937364 -- nodo_1412872859
-nodo_1728316395 [label="CTE: 15"]
-nodo_124937364 -- nodo_1728316395
-nodo_855977201 [label="WHILE"]
-nodo_programa -- nodo_855977201
-nodo_686858541 [label="<="]
-nodo_855977201 -- nodo_686858541
-nodo_1774038594 [label="ID: contador"]
-nodo_686858541 -- nodo_1774038594
-nodo_1917948888 [label="CTE: 92"]
-nodo_686858541 -- nodo_1917948888
-nodo_1239399988 [label="Cuerpo"]
-nodo_855977201 -- nodo_1239399988
-nodo_2120446521 [label=":="]
-nodo_1239399988 -- nodo_2120446521
-nodo_2128274840 [label="ID: contador"]
-nodo_2120446521 -- nodo_2128274840
-nodo_1644670535 [label="+"]
-nodo_2120446521 -- nodo_1644670535
-nodo_153058607 [label="ID: contador"]
-nodo_1644670535 -- nodo_153058607
-nodo_909491097 [label="CTE: 1"]
-nodo_1644670535 -- nodo_909491097
-nodo_2026141642 [label=":="]
-nodo_1239399988 -- nodo_2026141642
-nodo_1387537398 [label="ID: actual"]
-nodo_2026141642 -- nodo_1387537398
-nodo_1506211411 [label="+"]
-nodo_2026141642 -- nodo_1506211411
-nodo_1836241288 [label="/"]
-nodo_1506211411 -- nodo_1836241288
-nodo_109128616 [label="ID: contador"]
-nodo_1836241288 -- nodo_109128616
-nodo_1850428056 [label="CTE: 0.342"]
-nodo_1836241288 -- nodo_1850428056
-nodo_1792529376 [label="*"]
-nodo_1506211411 -- nodo_1792529376
-nodo_1359370325 [label="ID: contador"]
-nodo_1792529376 -- nodo_1359370325
-nodo_120124909 [label="+"]
-nodo_1792529376 -- nodo_120124909
-nodo_396612515 [label="ID: contar"]
-nodo_120124909 -- nodo_396612515
-nodo_217229698 [label="CTE: 4.67"]
-nodo_120124909 -- nodo_217229698
-nodo_453860383 [label=":="]
-nodo_1239399988 -- nodo_453860383
-nodo_859289945 [label="ID: suma"]
-nodo_453860383 -- nodo_859289945
-nodo_1650126668 [label="+"]
-nodo_453860383 -- nodo_1650126668
-nodo_185919644 [label="ID: suma"]
-nodo_1650126668 -- nodo_185919644
-nodo_2102471356 [label="ID: actual"]
-nodo_1650126668 -- nodo_2102471356
-nodo_441192103 [label="IF"]
-nodo_programa -- nodo_441192103
-nodo_1680090958 [label="AND"]
-nodo_441192103 -- nodo_1680090958
-nodo_361769794 [label=">"]
-nodo_1680090958 -- nodo_361769794
-nodo_767334947 [label="ID: actual"]
-nodo_361769794 -- nodo_767334947
-nodo_256135493 [label="CTE: 2"]
-nodo_361769794 -- nodo_256135493
-nodo_189012225 [label="<>"]
-nodo_1680090958 -- nodo_189012225
-nodo_936172501 [label="ID: actual"]
-nodo_189012225 -- nodo_936172501
-nodo_489360956 [label="CTE: 0"]
-nodo_189012225 -- nodo_489360956
-nodo_128818965 [label="Then"]
-nodo_441192103 -- nodo_128818965
-nodo_1723979374 [label="PRINT"]
-nodo_128818965 -- nodo_1723979374
-nodo_833720475 [label="CTE: actual es mayor que 2 y distinto de cero"]
-nodo_1723979374 -- nodo_833720475
-nodo_132773850 [label=":="]
-nodo_128818965 -- nodo_132773850
-nodo_787631197 [label="ID: palabra"]
-nodo_132773850 -- nodo_787631197
-nodo_2022383319 [label="CTE: es mayor"]
-nodo_132773850 -- nodo_2022383319
-nodo_1563058662 [label="Else"]
-nodo_441192103 -- nodo_1563058662
-nodo_1637322893 [label="PRINT"]
-nodo_1563058662 -- nodo_1637322893
-nodo_1323750889 [label="CTE: no es mayor que 2"]
-nodo_1637322893 -- nodo_1323750889
-nodo_1208246049 [label="IF"]
-nodo_programa -- nodo_1208246049
-nodo_2080197054 [label="AND"]
-nodo_1208246049 -- nodo_2080197054
-nodo_1406793323 [label=">="]
-nodo_2080197054 -- nodo_1406793323
-nodo_954699314 [label="ID: suma"]
-nodo_1406793323 -- nodo_954699314
-nodo_599555021 [label="CTE: 10"]
-nodo_1406793323 -- nodo_599555021
-nodo_72068567 [label="<="]
-nodo_2080197054 -- nodo_72068567
-nodo_182503913 [label="ID: suma"]
-nodo_72068567 -- nodo_182503913
-nodo_979936599 [label="CTE: 30"]
-nodo_72068567 -- nodo_979936599
-nodo_378932336 [label="Then"]
-nodo_1208246049 -- nodo_378932336
-nodo_886788717 [label=":="]
-nodo_378932336 -- nodo_886788717
-nodo_310675086 [label="ID: d1"]
-nodo_886788717 -- nodo_310675086
-nodo_1756156855 [label="CTE: 3.14"]
-nodo_886788717 -- nodo_1756156855
+nodo_811342327 [label="PRINT"]
+nodo_programa -- nodo_811342327
+nodo_1180001393 [label="CTE: Prueba.txt Analizador Lexico!"]
+nodo_811342327 -- nodo_1180001393
+nodo_985463469 [label=":="]
+nodo_programa -- nodo_985463469
+nodo_995179450 [label="ID: contador"]
+nodo_985463469 -- nodo_995179450
+nodo_515829297 [label="CTE: 0"]
+nodo_985463469 -- nodo_515829297
+nodo_390928432 [label=":="]
+nodo_programa -- nodo_390928432
+nodo_380335475 [label="ID: suma"]
+nodo_390928432 -- nodo_380335475
+nodo_1463605616 [label="CTE: 7.5"]
+nodo_390928432 -- nodo_1463605616
+nodo_1132093759 [label=":="]
+nodo_programa -- nodo_1132093759
+nodo_8335212 [label="ID: contar"]
+nodo_1132093759 -- nodo_8335212
+nodo_512408913 [label="CTE: 18.22"]
+nodo_1132093759 -- nodo_512408913
+nodo_1672434221 [label="WHILE"]
+nodo_programa -- nodo_1672434221
+nodo_176895969 [label="<="]
+nodo_1672434221 -- nodo_176895969
+nodo_1824504315 [label="ID: contador"]
+nodo_176895969 -- nodo_1824504315
+nodo_713897472 [label="CTE: 92"]
+nodo_176895969 -- nodo_713897472
+nodo_783398528 [label="Cuerpo"]
+nodo_1672434221 -- nodo_783398528
+nodo_2077082432 [label=":="]
+nodo_783398528 -- nodo_2077082432
+nodo_479187975 [label="ID: contador"]
+nodo_2077082432 -- nodo_479187975
+nodo_1683482715 [label="+"]
+nodo_2077082432 -- nodo_1683482715
+nodo_2071474624 [label="ID: contador"]
+nodo_1683482715 -- nodo_2071474624
+nodo_1331035286 [label="CTE: 1"]
+nodo_1683482715 -- nodo_1331035286
+nodo_61291006 [label=":="]
+nodo_783398528 -- nodo_61291006
+nodo_1363290632 [label="ID: actual"]
+nodo_61291006 -- nodo_1363290632
+nodo_440345474 [label="+"]
+nodo_61291006 -- nodo_440345474
+nodo_530935513 [label="/"]
+nodo_440345474 -- nodo_530935513
+nodo_1575128377 [label="ID: contador"]
+nodo_530935513 -- nodo_1575128377
+nodo_659901257 [label="CTE: 0.342"]
+nodo_530935513 -- nodo_659901257
+nodo_1836903811 [label="*"]
+nodo_440345474 -- nodo_1836903811
+nodo_919765615 [label="ID: contador"]
+nodo_1836903811 -- nodo_919765615
+nodo_1721300536 [label="+"]
+nodo_1836903811 -- nodo_1721300536
+nodo_1029520307 [label="ID: contar"]
+nodo_1721300536 -- nodo_1029520307
+nodo_1759100453 [label="CTE: 4.67"]
+nodo_1721300536 -- nodo_1759100453
+nodo_230376403 [label=":="]
+nodo_783398528 -- nodo_230376403
+nodo_683633411 [label="ID: suma"]
+nodo_230376403 -- nodo_683633411
+nodo_439438754 [label="+"]
+nodo_230376403 -- nodo_439438754
+nodo_123269860 [label="ID: suma"]
+nodo_439438754 -- nodo_123269860
+nodo_1909296560 [label="ID: actual"]
+nodo_439438754 -- nodo_1909296560
+nodo_2108618479 [label="PRINT"]
+nodo_programa -- nodo_2108618479
+nodo_777749569 [label="CTE: La variable suma es de tipo float"]
+nodo_2108618479 -- nodo_777749569
+nodo_1725138947 [label="IF"]
+nodo_programa -- nodo_1725138947
+nodo_343807329 [label="AND"]
+nodo_1725138947 -- nodo_343807329
+nodo_868394502 [label=">"]
+nodo_343807329 -- nodo_868394502
+nodo_543754740 [label="ID: actual"]
+nodo_868394502 -- nodo_543754740
+nodo_877655564 [label="CTE: 2"]
+nodo_868394502 -- nodo_877655564
+nodo_503371118 [label="<>"]
+nodo_343807329 -- nodo_503371118
+nodo_1623363289 [label="ID: actual"]
+nodo_503371118 -- nodo_1623363289
+nodo_1239086713 [label="CTE: 0"]
+nodo_503371118 -- nodo_1239086713
+nodo_186240290 [label="Then"]
+nodo_1725138947 -- nodo_186240290
+nodo_844643028 [label="PRINT"]
+nodo_186240290 -- nodo_844643028
+nodo_1899695907 [label="CTE: actual es mayor que 2 y distinto de cero"]
+nodo_844643028 -- nodo_1899695907
+nodo_153492007 [label=":="]
+nodo_186240290 -- nodo_153492007
+nodo_1775505322 [label="ID: palabra"]
+nodo_153492007 -- nodo_1775505322
+nodo_376008748 [label="CTE: es mayor"]
+nodo_153492007 -- nodo_376008748
+nodo_696675058 [label="Else"]
+nodo_1725138947 -- nodo_696675058
+nodo_1774200504 [label="PRINT"]
+nodo_696675058 -- nodo_1774200504
+nodo_1294504606 [label="CTE: no es mayor que 2"]
+nodo_1774200504 -- nodo_1294504606
+nodo_1010439723 [label="IF"]
+nodo_programa -- nodo_1010439723
+nodo_709054354 [label="OR"]
+nodo_1010439723 -- nodo_709054354
+nodo_108972303 [label="<"]
+nodo_709054354 -- nodo_108972303
+nodo_399110060 [label="ID: suma"]
+nodo_108972303 -- nodo_399110060
+nodo_770901992 [label="CTE: 0"]
+nodo_108972303 -- nodo_770901992
+nodo_2083835289 [label="<"]
+nodo_709054354 -- nodo_2083835289
+nodo_841861370 [label="ID: actual"]
+nodo_2083835289 -- nodo_841861370
+nodo_435599435 [label="CTE: 0"]
+nodo_2083835289 -- nodo_435599435
+nodo_2050157490 [label="Then"]
+nodo_1010439723 -- nodo_2050157490
+nodo_463710643 [label="PRINT"]
+nodo_2050157490 -- nodo_463710643
+nodo_866685812 [label="CTE: Suma es menor que 0 o actual menor que 2"]
+nodo_463710643 -- nodo_866685812
+nodo_865214474 [label="PRINT"]
+nodo_programa -- nodo_865214474
+nodo_1065834763 [label="ID: suma"]
+nodo_865214474 -- nodo_1065834763
+nodo_2041706353 [label="IF"]
+nodo_programa -- nodo_2041706353
+nodo_539738975 [label="AND"]
+nodo_2041706353 -- nodo_539738975
+nodo_1986504718 [label=">="]
+nodo_539738975 -- nodo_1986504718
+nodo_1814859210 [label="ID: suma"]
+nodo_1986504718 -- nodo_1814859210
+nodo_1385122454 [label="CTE: 2"]
+nodo_1986504718 -- nodo_1385122454
+nodo_19825798 [label="<="]
+nodo_539738975 -- nodo_19825798
+nodo_73718441 [label="ID: suma"]
+nodo_19825798 -- nodo_73718441
+nodo_1701171066 [label="CTE: 54"]
+nodo_19825798 -- nodo_1701171066
+nodo_1325938163 [label="Then"]
+nodo_2041706353 -- nodo_1325938163
+nodo_978147132 [label=":="]
+nodo_1325938163 -- nodo_978147132
+nodo_1203942149 [label="ID: d1"]
+nodo_978147132 -- nodo_1203942149
+nodo_1810811718 [label="CTE: 3.14"]
+nodo_978147132 -- nodo_1810811718
+nodo_2092302014 [label="PRINT"]
+nodo_1325938163 -- nodo_2092302014
+nodo_2069450736 [label="CTE: Esta entre 2 y 54"]
+nodo_2092302014 -- nodo_2069450736
+nodo_842859983 [label="Else"]
+nodo_2041706353 -- nodo_842859983
+nodo_796993889 [label="PRINT"]
+nodo_842859983 -- nodo_796993889
+nodo_90110791 [label="CTE: No esta entre 2 y 54"]
+nodo_796993889 -- nodo_90110791
 }

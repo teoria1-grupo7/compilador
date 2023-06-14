@@ -1,14 +1,13 @@
 package helper;
 
 import compilador.SymbolTableEntry;
-import compilador.sym;
 import java.util.HashMap;
-import java.util.Optional;
 
 public class AssemblerHelper {
 
   public static String buildHeader() {
     return "include macros2.asm\n"
+        + "include number.asm\n"
         + ".MODEL LARGE \n"
         + ".386\n"
         + ".STACK  200h \n";

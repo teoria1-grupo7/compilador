@@ -2,8 +2,8 @@ package helper;
 
 import compilador.Lexico;
 import compilador.SymbolTableEntry;
-import compilador.sym;
 
+import compilador.sym;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -74,6 +74,12 @@ public class ParserHelper {
         SymbolTableEntry symbolTableEntry =
                 new SymbolTableEntry(lexico.getNombreToken(sym.STRING_LITERAL), lexico.getNombreToken(sym.STRING), cte, cte.length());
         symbolTable.put(string_literal_aux, symbolTableEntry);
+    }
+
+    public void checkVar(String var) {
+        if (!symbolTable.containsKey(var)) {
+            throw new IllegalArgumentException(var + " is not defined");
+        }
     }
 
 }

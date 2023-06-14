@@ -22,11 +22,18 @@ public class NodoPrint extends NodoSentencia {
     @Override
     public String assemble(StringBuilder asm, HashMap<String, SymbolTableEntry> symbolTable,
         AtomicInteger auxCount) {
+        String assembled = valor.assemble(asm, auxCount);
+        SymbolTableEntry symbolTableEntry = symbolTable.get(assembled);
+        asm.append("\n");
+        if (symbolTableEntry.getType().equals("STRING")) {
+            asm.append("displayString ").append(assembled);
+        }
+        else {
+            asm.append("displayFloat ").append(assembled).append(", 2");
+        }
         asm.append("\n")
-           .append("displayString ").append(valor.assemble(asm, auxCount))
-           .append("\n")
-           .append("newLine")
-           .append("\n");
+            .append("newLine")
+            .append("\n");
         return "";
     }
 }

@@ -52,6 +52,10 @@ action code {:
     public void addCteString(String cte){
         parser.helper.addCteString(cte);
     }
+
+    public void checkVar(String id) {
+      parser.helper.checkVar(id);
+    }
 :};
 
 terminal BEGINPROGRAM;
@@ -229,12 +233,12 @@ elemento_sentencia_simple ::=
 asignacion ::=
     IDENTIFIER:id ASSIGN expresion:ex {:
         System.out.println("[asignacion01] Asignación: "+id+" ASSIGN "+ex);
-
+        checkVar(id);
         RESULT = new NodoAsignacion(new NodoIdentificador(id), (NodoExpresion) ex);
     :}
     | IDENTIFIER:id ASSIGN constante_string:cte_string {:
         System.out.println("[asignacion02] Asignación: "+id+" ASSIGN \""+cte_string+"\"");
-
+        checkVar(id);
         RESULT = new NodoAsignacion(new NodoIdentificador(id), (NodoExpresion) cte_string);
     :};
 
@@ -412,7 +416,14 @@ funcion_print ::=
         System.out.println("[funcion_print02] PRINT \""+id+"\"");
 
         RESULT = new NodoPrint((NodoExpresion) new NodoIdentificador(id));
-    :};
+    :}
+    |
+    PRINT constante_numerica:cte {:
+          System.out.println("[funcion_print02] PRINT \""+id+"\"");
+
+          RESULT = new NodoPrint((NodoExpresion) cte);
+      :};
+
 
 funcion_between ::= BETWEEN
     LPAREN parametros_between:param RPAREN {:
