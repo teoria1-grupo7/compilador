@@ -280,6 +280,7 @@ termino ::=
 factor ::=
     IDENTIFIER:id {:
         System.out.println("[factor01] Factor: identificador "+id);
+        checkVar(id);
         RESULT = new NodoIdentificador(id);
     :}
     | constante_numerica:num {:
@@ -414,12 +415,12 @@ funcion_print ::=
     |
     PRINT IDENTIFIER:id {:
         System.out.println("[funcion_print02] PRINT \""+id+"\"");
-
+        checkVar(id);
         RESULT = new NodoPrint((NodoExpresion) new NodoIdentificador(id));
     :}
     |
     PRINT constante_numerica:cte {:
-          System.out.println("[funcion_print02] PRINT \""+id+"\"");
+          System.out.println("[funcion_print03] PRINT \""+cte+"\"");
 
           RESULT = new NodoPrint((NodoExpresion) cte);
       :};
@@ -435,6 +436,6 @@ funcion_between ::= BETWEEN
 parametros_between ::=
     IDENTIFIER:var COMMA LBRACK constante_numerica:inf SEMICOLON constante_numerica:sup RBRACK {:
         System.out.println("[parametros_between01] "+inf+", "+sup);
-
+        checkVar(var);
         RESULT = new NodoAnd(new NodoMayorIgual(new NodoIdentificador(var), (NodoExpresion)inf), new NodoMenorIgual(new NodoIdentificador(var), (NodoExpresion)sup));
     :};
