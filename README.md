@@ -49,7 +49,15 @@
  * Puede ejecutarse la clase `compilador/Main.java` para visualizar la salida por terminal, y la clase `gui/MainFrame.java` para la interfaz gráfica.
  * Se puede utilizar la versión ya compilada `bin/compilador.jar`.
  
- 
+ ## Ejecución del compilador
+Una vez iniciada la GUI, podemos escribir directamente el código a compilar en el panel lateral
+izquierdo, o bien abrirlo seleccionando el archivo desde la opción "Abrir" en el menú superior. 
+
+A continuación, clickeamos el botón "Compilar" del panel superior. Como resultado, en la pestaña "Salida"
+del panel lateral derecho veremos la interpretación de la gramática conforme el _parser_ recorrió las intrucciones.
+Si la compilación fue exitosa, se verá un mensaje en pantalla indicandolo y un menú de selección de archivo
+se abrirá para elegir la ubicación del archivo .asm generado. En la tercera pestaña del panel derecho
+también podremos ver esta salida. 
  
  <!-- MARKDOWN LINKS & IMAGES -->
  <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
